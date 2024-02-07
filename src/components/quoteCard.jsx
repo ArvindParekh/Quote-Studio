@@ -5,6 +5,7 @@ const QuoteCard = () => {
   const [input, setInput] = useState("");
   const [author, setAuthor] = useState("");
   const [background, setBackground] = useState(null);
+  const [textColor, setTextColor] = useState("#000000");
   //   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
 
@@ -57,23 +58,30 @@ const QuoteCard = () => {
           Get Random Quote
         </button>
         {/* Color picker */}
+        <label>Change background color: </label>
         <input type="color" onChange={(e) => setBackground(e.target.value)} />
-        {/* Random Quote button */}
+
+        <label>Change text color: </label>
+        <input type="color" onChange={(e) => setTextColor(e.target.value)} />
       </div>
       <div className="w-[50%] h-full  m-4 flex items-center justify-center">
-        <div
-          className="flex flex-col items-center justify-center m-4 w-[95%] h-[80%] text-center rounded-xl px-4"
-          style={
-            background[0] === "#"
-              ? { background: background }
-              : { background: "url(" + background + ")" }
-          }
-        >
-          <h1 className="text-6xl font-bold">{input}</h1>
-          {author !== "" && (
-            <span className="mt-5 font-semibold text-2xl">-{author}</span>
-          )}
-        </div>
+        {background && (
+          <div
+            className="flex flex-col items-center justify-center m-4 w-[95%] h-[80%] text-center rounded-xl px-4"
+            style={
+              background[0] === "#"
+                ? { background: background, color: textColor }
+                : { background: "url(" + background + ")", color: textColor }
+            }
+          >
+            <h1 className="text-6xl font-bold">
+              {input}
+            </h1>
+            {author !== "" && (
+              <span className="mt-5 font-semibold text-2xl">-{author}</span>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
