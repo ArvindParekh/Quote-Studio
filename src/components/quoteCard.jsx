@@ -6,7 +6,7 @@ import html2canvas from "html2canvas";
 const QuoteCard = () => {
   const [input, setInput] = useState("");
   const [author, setAuthor] = useState("");
-  const [background, setBackground] = useState(null);
+  const [background, setBackground] = useState("#f0f000");
   const [textColor, setTextColor] = useState("#000000");
   //   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
@@ -108,9 +108,10 @@ const QuoteCard = () => {
             }}
             onChange={(e) => setTextColor("#" + e.target.value)}
           />
+          <p className="mt-5"><span className="font-semibold">*Disclaimer:</span> Download functionality currently only supported on chrome.</p>
         </div>
       </div>
-      <div className="m-4 flex  h-full w-[50%] items-center justify-center">
+      <div className="m-4 flex h-full w-[50%] flex-col items-center justify-center">
         {background && (
           <div
             className="m-4 flex h-[80%] w-[95%] flex-col items-center justify-center rounded-xl px-4 text-center shadow-lg"
@@ -131,7 +132,12 @@ const QuoteCard = () => {
             )}
           </div>
         )}
-        <button onClick={handleDownload}>Download</button>
+        <button
+          onClick={handleDownload}
+          className="border-1 rounded-md border border-black bg-black p-3 px-7 text-white outline-none"
+        >
+          Download
+        </button>
       </div>
     </>
   );
