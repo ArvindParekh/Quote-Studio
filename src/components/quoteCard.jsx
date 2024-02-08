@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useState } from "react";
 import {ColorPicker} from "primereact/colorpicker"
+import html2canvas from "html2canvas"
 
 const QuoteCard = () => {
   const [input, setInput] = useState("");
@@ -27,6 +28,16 @@ const QuoteCard = () => {
     const files = e.target.files[0];
     const objecturl = URL.createObjectURL(files);
     setBackground(objecturl);
+  }
+
+  function handleDownload(){
+    html2canvas(document.querySelector('#canvas')).then(canvas=>{
+      canvas.toBlob((blob)=>{
+         // eslint-disable-next-line no-undef 
+        const item = new ClipboardItem({"image/png": blob})
+        navigator.clipboard.write([item]).then(console.log("done"))
+      })
+    })
   }
 
   return (
@@ -84,6 +95,7 @@ const QuoteCard = () => {
         {background && (
           <div
             className="flex flex-col items-center justify-center m-4 w-[95%] h-[80%] shadow-lg text-center rounded-xl px-4"
+            id="canvas"
             style={
               background[0] === "#"
                 ? { background: background, color: textColor }
@@ -97,6 +109,7 @@ const QuoteCard = () => {
             )}
           </div>
         )}
+        <button onClick={handleDownload}>Download</button>
       </div>
     </>
   );
