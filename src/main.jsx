@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
+import Root from "./Root.jsx";
 
 const router = createBrowserRouter([
   {
@@ -11,7 +12,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Link to="/generate">Get Started</Link>,
+    element: <Root />,
   },
 ]);
 

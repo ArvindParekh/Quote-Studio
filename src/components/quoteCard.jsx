@@ -4,8 +4,8 @@ import { ColorPicker } from "primereact/colorpicker";
 import html2canvas from "html2canvas";
 
 const QuoteCard = () => {
-  const [input, setInput] = useState("");
-  const [author, setAuthor] = useState("");
+  const [input, setInput] = useState("The quote goes here.");
+  const [author, setAuthor] = useState("Someone Wise");
   const [background, setBackground] = useState("#f0f000");
   const [textColor, setTextColor] = useState("#000000");
   //   const [image, setImage] = useState(null);
@@ -47,7 +47,6 @@ const QuoteCard = () => {
           <label className="font-medium">Quote</label>
           <input
             type="text"
-            // placeholder="Enter Quote"
             className="rounded-md border p-3 focus:border-2 focus:border-black focus:outline-none"
             onChange={(e) => setInput(e.target.value)}
             value={input}
@@ -57,9 +56,10 @@ const QuoteCard = () => {
         <div className="flex flex-col gap-2">
           <label className="font-medium">Author</label>
           <input
-            // placeholder="Enter author name"
+            type="text"
             className="rounded-md border p-3 focus:border-2 focus:border-black focus:outline-none"
             onChange={(e) => setAuthor(e.target.value)}
+            value={author}
           />
         </div>
 
@@ -108,7 +108,10 @@ const QuoteCard = () => {
             }}
             onChange={(e) => setTextColor("#" + e.target.value)}
           />
-          <p className="mt-5"><span className="font-semibold">*Disclaimer:</span> Download functionality currently only supported on chrome.</p>
+          <p className="mt-5">
+            <span className="font-semibold">*Disclaimer:</span> Download
+            functionality currently only supported on chrome.
+          </p>
         </div>
       </div>
       <div className="m-4 flex h-full w-[50%] flex-col items-center justify-center">
