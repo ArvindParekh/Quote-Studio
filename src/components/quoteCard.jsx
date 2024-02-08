@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useState } from "react";
+import {ColorPicker} from "primereact/colorpicker"
 
 const QuoteCard = () => {
   const [input, setInput] = useState("");
@@ -30,7 +31,6 @@ const QuoteCard = () => {
 
   return (
     <>
-      {console.log(background)}
       <div className="w-[50%] h-full m-4 flex flex-col gap-5 pt-20">
         <div className="flex flex-col gap-2">
           <label className="font-medium">Quote</label>
@@ -75,17 +75,9 @@ const QuoteCard = () => {
 
         {/* Color picker */}
         <div>
-          {/* <input
-            type="color"
-            onChange={(e) => setBackground(e.target.value)}
-            className="inline-block mr-4"
-          />
+          <ColorPicker value={background} inputStyle={{width: '30px', height: '30px', borderRadius: '5px', margin: 4}} height={4} onChange={(e)=> setBackground('#' + e.target.value)} />
 
-          <input
-            type="color"
-            onChange={(e) => setTextColor(e.target.value)}
-            className="inline-block"
-          /> */}
+          <ColorPicker value={textColor} inputStyle={{width: '30px', height: '30px', borderRadius: '5px', margin: 4}} onChange={(e)=> setTextColor('#'+ e.target.value)} />
         </div>
       </div>
       <div className="w-[50%] h-full  m-4 flex items-center justify-center">
