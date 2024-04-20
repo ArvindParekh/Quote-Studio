@@ -34,9 +34,9 @@ Create and customize beautiful quote images with ease! Express yourself, share y
 
 ## Screenshots
 
-![Home Screen](image.png)
+![Home Screen](/public/ss-1.png)
 
-![Quote Generator](image-1.png)
+![Quote Generator](/public/ss-2.png)
 
 ## TO-DOs
 
