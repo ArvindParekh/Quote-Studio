@@ -108,10 +108,10 @@ const QuoteCard = () => {
             }}
             onChange={(e) => setTextColor("#" + e.target.value)}
           />
-          <p className="mt-5">
+          {/* <p className="mt-5">
             <span className="font-semibold">*Disclaimer:</span> Download
             functionality currently only supported on chrome.
-          </p>
+          </p> */}
         </div>
       </div>
       <div className="m-4 flex h-full w-[50%] flex-col items-center justify-center">
