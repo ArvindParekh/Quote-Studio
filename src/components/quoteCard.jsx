@@ -34,9 +34,25 @@ const QuoteCard = () => {
         .toJpeg(document.getElementById("canvas"), { quality: 0.95 })
         .then(function (dataUrl) {
           var link = document.createElement("a");
-          link.download = "my-image-name.jpeg";
+          link.download = "quote.jpeg";
           link.href = dataUrl;
           link.click();
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleCopy() {
+    try {
+      domtoimage
+        .toBlob(document.getElementById("canvas"), { quality: 0.95 })
+        .then((dataUrl) => {
+          navigator.clipboard.write([
+            new ClipboardItem({
+              "image/png": dataUrl,
+            }),
+          ]);
         });
     } catch (error) {
       console.log(error);
@@ -134,12 +150,21 @@ const QuoteCard = () => {
             )}
           </div>
         )}
-        <button
-          onClick={handleDownload}
-          className="border-1 rounded-md border border-black bg-black p-3 px-7 text-white outline-none"
-        >
-          Download
-        </button>
+        <div className="flex gap-10 items-center justify-center">
+          <button
+            onClick={handleDownload}
+            className="border-1 mt-4 rounded-md border border-black bg-black p-3 px-7 text-white outline-none"
+          >
+            Download
+          </button>
+
+          <button
+            onClick={handleCopy}
+            className="border-1 mt-4 rounded-md border border-black bg-black p-3 px-7 text-white outline-none"
+          >
+            Copy to Clipboard
+          </button>
+        </div>
       </div>
     </>
   );
