@@ -1,7 +1,8 @@
 import { useRef } from "react";
 import { useState } from "react";
 import { ColorPicker } from "primereact/colorpicker";
-import html2canvas from "html2canvas";
+// import html2canvas from "html2canvas";
+import domtoimage from "dom-to-image";
 
 const QuoteCard = () => {
   const [input, setInput] = useState("The quote goes here.");
@@ -12,12 +13,9 @@ const QuoteCard = () => {
   const inputRef = useRef(null);
 
   function getRandomQuote() {
-    console.log("Clicked");
     const quote = fetch("https://type.fit/api/quotes")
       .then((res) => res.json())
       .then((data) => setInput(data[Math.floor(Math.random() * 10)].text));
-    console.log(quote);
-    // setInput(quote[Math.floor(Math.random() * 10)].text);
   }
 
   function getFileFromDevice() {
@@ -31,13 +29,17 @@ const QuoteCard = () => {
   }
 
   function handleDownload() {
-    html2canvas(document.querySelector("#canvas")).then((canvas) => {
-      canvas.toBlob((blob) => {
+    try {
+      domtoimage.toBlob(document.querySelector("#canvas")).then((blob) => {
         // eslint-disable-next-line no-undef
         const item = new ClipboardItem({ "image/png": blob });
-        navigator.clipboard.write([item]).then(console.log("done"));
+        navigator.clipboard
+          .write([item])
+          .then(console.log("Copied to clipboard"));
       });
-    });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -108,10 +110,6 @@ const QuoteCard = () => {
             }}
             onChange={(e) => setTextColor("#" + e.target.value)}
           />
-          {/* <p className="mt-5">
-            <span className="font-semibold">*Disclaimer:</span> Download
-            functionality currently only supported on chrome.
-          </p> */}
         </div>
       </div>
       <div className="m-4 flex h-full w-[50%] flex-col items-center justify-center">
