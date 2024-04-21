@@ -30,13 +30,14 @@ const QuoteCard = () => {
 
   function handleDownload() {
     try {
-      domtoimage.toBlob(document.querySelector("#canvas")).then((blob) => {
-        // eslint-disable-next-line no-undef
-        const item = new ClipboardItem({ "image/png": blob });
-        navigator.clipboard
-          .write([item])
-          .then(console.log("Copied to clipboard"));
-      });
+      domtoimage
+        .toJpeg(document.getElementById("canvas"), { quality: 0.95 })
+        .then(function (dataUrl) {
+          var link = document.createElement("a");
+          link.download = "my-image-name.jpeg";
+          link.href = dataUrl;
+          link.click();
+        });
     } catch (error) {
       console.log(error);
     }
@@ -115,7 +116,7 @@ const QuoteCard = () => {
       <div className="m-4 flex h-full w-[50%] flex-col items-center justify-center">
         {background && (
           <div
-            className="m-4 flex h-[80%] w-[95%] flex-col items-center justify-center rounded-xl px-4 text-center shadow-lg"
+            className="flex h-[80%] w-[95%] flex-col items-center justify-center rounded-xl px-4 text-center shadow-lg"
             id="canvas"
             style={
               background[0] === "#"
