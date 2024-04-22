@@ -102,10 +102,10 @@ const QuoteCard = () => {
               label="Font"
               onChange={handleFontChange}
             >
-              {fontsData.map((font, index) => {
+              {fontsData.map((fonts, index) => {
                 return (
-                  <MenuItem key={index} value={font}>
-                    {font}
+                  <MenuItem style={{fontFamily: fonts}} key={index} value={fonts}>
+                    {fonts}
                   </MenuItem>
                 );
               })}
