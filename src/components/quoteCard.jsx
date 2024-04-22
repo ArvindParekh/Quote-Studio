@@ -1,7 +1,10 @@
 import { useRef } from "react";
 import { useState } from "react";
 import { ColorPicker } from "primereact/colorpicker";
-// import html2canvas from "html2canvas";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import domtoimage from "dom-to-image";
 
 const QuoteCard = () => {
@@ -9,6 +12,7 @@ const QuoteCard = () => {
   const [author, setAuthor] = useState("Someone Wise");
   const [background, setBackground] = useState("#f0f000");
   const [textColor, setTextColor] = useState("#000000");
+  const [font, setFont] = useState("Arial");
   //   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
 
@@ -59,6 +63,11 @@ const QuoteCard = () => {
     }
   }
 
+  function handleFontChange(event) {
+    setFont(event.target.value);
+    document.body.style.fontFamily = event.target.value;
+  }
+
   return (
     <>
       <div className="m-4 flex h-full w-[50%] flex-col gap-5 pt-20">
@@ -80,6 +89,24 @@ const QuoteCard = () => {
             onChange={(e) => setAuthor(e.target.value)}
             value={author}
           />
+        </div>
+
+        <div>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Font</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              defaultValue={font}
+              value={font}
+              label="Font"
+              onChange={handleFontChange}
+            >
+              <MenuItem value="Arial">Arial</MenuItem>
+              <MenuItem value="Inter">Inter</MenuItem>
+              <MenuItem value="Calibri">Calibri</MenuItem>
+            </Select>
+          </FormControl>
         </div>
 
         <input
@@ -143,14 +170,14 @@ const QuoteCard = () => {
                   }
             }
           >
-            <h1 className="text-6xl font-bold">{input}</h1>
+            <h1 className="text-6xl font-bold" style={{fontFamily: font}}>{input}</h1>
 
             {author !== "" && (
-              <span className="mt-5 text-2xl font-semibold">-{author}</span>
+              <span className="mt-5 text-2xl font-semibold" style={{fontFamily: font}}>-{author}</span>
             )}
           </div>
         )}
-        <div className="flex gap-10 items-center justify-center">
+        <div className="flex items-center justify-center gap-10">
           <button
             onClick={handleDownload}
             className="border-1 mt-4 rounded-md border border-black bg-black p-3 px-7 text-white outline-none"
