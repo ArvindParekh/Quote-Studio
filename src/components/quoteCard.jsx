@@ -5,6 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { Slider } from "@mui/material";
 import domtoimage from "dom-to-image";
 import fontsData from "../data/fonts";
 
@@ -14,6 +15,7 @@ const QuoteCard = () => {
   const [background, setBackground] = useState("#f0f000");
   const [textColor, setTextColor] = useState("#000000");
   const [font, setFont] = useState("Arial");
+  const [quoteSize, setQuoteSize] = useState('60');
   //   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
 
@@ -68,6 +70,10 @@ const QuoteCard = () => {
     setFont(event.target.value);
   }
 
+  function handleFontSizeChange(event){
+    setQuoteSize(event.target.value);
+  }
+
   return (
     <>
       <div className="m-4 flex h-full w-[50%] flex-col gap-5 pt-20">
@@ -111,6 +117,10 @@ const QuoteCard = () => {
               })}
             </Select>
           </FormControl>
+        </div>
+
+        <div>
+          <Slider defaultValue={60} valueLabelDisplay="auto" onChange={handleFontSizeChange} />
         </div>
 
         <input
@@ -174,7 +184,7 @@ const QuoteCard = () => {
                   }
             }
           >
-            <h1 className="text-6xl font-bold" style={{ fontFamily: font }}>
+            <h1 className="text-6xl font-bold" style={{ fontFamily: font, fontSize:`${quoteSize}px` }}>
               {input}
             </h1>
 
