@@ -15,7 +15,7 @@ const QuoteCard = () => {
   const [background, setBackground] = useState("#f0f000");
   const [textColor, setTextColor] = useState("#000000");
   const [font, setFont] = useState("Arial");
-  const [quoteSize, setQuoteSize] = useState('60');
+  const [quoteSize, setQuoteSize] = useState("60");
   //   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
 
@@ -70,7 +70,7 @@ const QuoteCard = () => {
     setFont(event.target.value);
   }
 
-  function handleFontSizeChange(event){
+  function handleFontSizeChange(event) {
     setQuoteSize(event.target.value);
   }
 
@@ -84,6 +84,14 @@ const QuoteCard = () => {
             className="rounded-md border p-3 focus:border-2 focus:border-black focus:outline-none"
             onChange={(e) => setInput(e.target.value)}
             value={input}
+          />
+        </div>
+
+        <div>
+          <Slider
+            defaultValue={60}
+            valueLabelDisplay="auto"
+            onChange={handleFontSizeChange}
           />
         </div>
 
@@ -110,17 +118,17 @@ const QuoteCard = () => {
             >
               {fontsData.map((fonts, index) => {
                 return (
-                  <MenuItem style={{fontFamily: fonts}} key={index} value={fonts}>
+                  <MenuItem
+                    style={{ fontFamily: fonts }}
+                    key={index}
+                    value={fonts}
+                  >
                     {fonts}
                   </MenuItem>
                 );
               })}
             </Select>
           </FormControl>
-        </div>
-
-        <div>
-          <Slider defaultValue={60} valueLabelDisplay="auto" onChange={handleFontSizeChange} />
         </div>
 
         <input
@@ -184,7 +192,10 @@ const QuoteCard = () => {
                   }
             }
           >
-            <h1 className="text-6xl font-bold" style={{ fontFamily: font, fontSize:`${quoteSize}px` }}>
+            <h1
+              className="text-6xl font-bold"
+              style={{ fontFamily: font, fontSize: `${quoteSize}px` }}
+            >
               {input}
             </h1>
 
