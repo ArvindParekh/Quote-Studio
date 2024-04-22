@@ -6,6 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import domtoimage from "dom-to-image";
+import fontsData from "../data/fonts";
 
 const QuoteCard = () => {
   const [input, setInput] = useState("The quote goes here.");
@@ -17,7 +18,7 @@ const QuoteCard = () => {
   const inputRef = useRef(null);
 
   function getRandomQuote() {
-    const quote = fetch("https://type.fit/api/quotes")
+    fetch("https://type.fit/api/quotes")
       .then((res) => res.json())
       .then((data) => setInput(data[Math.floor(Math.random() * 10)].text));
   }
@@ -65,7 +66,6 @@ const QuoteCard = () => {
 
   function handleFontChange(event) {
     setFont(event.target.value);
-    document.body.style.fontFamily = event.target.value;
   }
 
   return (
@@ -102,9 +102,13 @@ const QuoteCard = () => {
               label="Font"
               onChange={handleFontChange}
             >
-              <MenuItem value="Arial">Arial</MenuItem>
-              <MenuItem value="Inter">Inter</MenuItem>
-              <MenuItem value="Calibri">Calibri</MenuItem>
+              {fontsData.map((font, index) => {
+                return (
+                  <MenuItem key={index} value={font}>
+                    {font}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </div>
@@ -170,10 +174,17 @@ const QuoteCard = () => {
                   }
             }
           >
-            <h1 className="text-6xl font-bold" style={{fontFamily: font}}>{input}</h1>
+            <h1 className="text-6xl font-bold" style={{ fontFamily: font }}>
+              {input}
+            </h1>
 
             {author !== "" && (
-              <span className="mt-5 text-2xl font-semibold" style={{fontFamily: font}}>-{author}</span>
+              <span
+                className="mt-5 text-2xl font-semibold"
+                style={{ fontFamily: font }}
+              >
+                -{author}
+              </span>
             )}
           </div>
         )}
