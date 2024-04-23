@@ -20,9 +20,12 @@ const QuoteCard = () => {
   const inputRef = useRef(null);
 
   function getRandomQuote() {
-    fetch("https://type.fit/api/quotes")
+    fetch("https://api.quotable.io/quotes/random?maxLength=80")
       .then((res) => res.json())
-      .then((data) => setInput(data[Math.floor(Math.random() * 10)].text));
+      .then((data) => {
+        setInput(data[0].content);
+        setAuthor(data[0].author);
+      });
   }
 
   function getFileFromDevice() {
