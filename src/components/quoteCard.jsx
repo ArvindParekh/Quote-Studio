@@ -185,7 +185,7 @@ const QuoteCard = () => {
           <ToggleButton value="success">Success</ToggleButton>
           {/* <ToggleButton value="life">Life</ToggleButton> */}
 
-          <FormControl>
+          <FormControl style={{minWidth: '5vw'}}>
             <InputLabel id="demo-simple-select-label">Others</InputLabel>
             <Select
               labelId="demo-simple-select-label"
