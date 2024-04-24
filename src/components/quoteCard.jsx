@@ -2,6 +2,10 @@ import { useRef } from "react";
 import { useState } from "react";
 import { ColorPicker } from "primereact/colorpicker";
 import InputLabel from "@mui/material/InputLabel";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+// import TabPanel from "@mui/lab/TabPanel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -18,6 +22,7 @@ const QuoteCard = () => {
   const [quoteSize, setQuoteSize] = useState("60");
   const [opacity, setOpacity] = useState(1);
   const [quoteGenre, setQuoteGenre] = useState("");
+  const [value, setValue] = useState("1");
   //   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
 
@@ -152,19 +157,60 @@ const QuoteCard = () => {
           </FormControl>
         </div>
 
-        <input
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          ref={inputRef}
-          onChange={handleChange}
-        />
-        <button
-          className="mt-5 rounded-md border-none bg-black p-2 text-base font-medium text-white"
-          onClick={getFileFromDevice}
-        >
-          Select File
-        </button>
+        <div>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList onChange={(event, newValue) => setValue(newValue)}>
+                <Tab label="Color" value="1" />
+                <Tab label="Image" value="2" />
+                <Tab label="Gradient" value="3" />
+              </TabList>
+            </Box>
+            <TabPanel value="1">
+              {/* Color picker */}
+              <div>
+                <ColorPicker
+                  value={background}
+                  inputStyle={{
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "5px",
+                    margin: 4,
+                  }}
+                  height={4}
+                  onChange={(e) => setBackground("#" + e.target.value)}
+                />
+
+                <ColorPicker
+                  value={textColor}
+                  inputStyle={{
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "5px",
+                    margin: 4,
+                  }}
+                  onChange={(e) => setTextColor("#" + e.target.value)}
+                />
+              </div>
+            </TabPanel>
+            <TabPanel value="2">
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                ref={inputRef}
+                onChange={handleChange}
+              />
+              <button
+                className="mt-5 rounded-md border-none bg-black p-2 text-base font-medium text-white"
+                onClick={getFileFromDevice}
+              >
+                Select File
+              </button>
+            </TabPanel>
+            <TabPanel value="3">Gradient Here</TabPanel>
+          </TabContext>
+        </div>
 
         <ToggleButtonGroup
           value={quoteGenre}
@@ -185,7 +231,7 @@ const QuoteCard = () => {
           <ToggleButton value="success">Success</ToggleButton>
           {/* <ToggleButton value="life">Life</ToggleButton> */}
 
-          <FormControl style={{minWidth: '5vw'}}>
+          <FormControl style={{ minWidth: "5vw" }}>
             <InputLabel id="demo-simple-select-label">Others</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -217,32 +263,6 @@ const QuoteCard = () => {
         >
           Get Random Quote
         </button>
-
-        {/* Color picker */}
-        <div>
-          <ColorPicker
-            value={background}
-            inputStyle={{
-              width: "30px",
-              height: "30px",
-              borderRadius: "5px",
-              margin: 4,
-            }}
-            height={4}
-            onChange={(e) => setBackground("#" + e.target.value)}
-          />
-
-          <ColorPicker
-            value={textColor}
-            inputStyle={{
-              width: "30px",
-              height: "30px",
-              borderRadius: "5px",
-              margin: 4,
-            }}
-            onChange={(e) => setTextColor("#" + e.target.value)}
-          />
-        </div>
       </div>
       <div className="m-4 flex h-full w-[50%] flex-col items-center justify-center">
         {background && (
