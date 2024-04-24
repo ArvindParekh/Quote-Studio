@@ -5,7 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { Slider } from "@mui/material";
+import { ToggleButton, Slider, ToggleButtonGroup } from "@mui/material";
 import domtoimage from "dom-to-image";
 import fontsData from "../data/fonts";
 
@@ -16,11 +16,17 @@ const QuoteCard = () => {
   const [textColor, setTextColor] = useState("#000000");
   const [font, setFont] = useState("Arial");
   const [quoteSize, setQuoteSize] = useState("60");
+  const [quoteGenre, setQuoteGenre] = useState("");
   //   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
 
   function getRandomQuote() {
-    fetch("https://api.quotable.io/quotes/random?maxLength=80")
+    console.log(
+      `https://api.quotable.io/quotes/random?maxLength=80&tags=${quoteGenre}`,
+    );
+    fetch(
+      `https://api.quotable.io/quotes/random?maxLength=80&tags=${quoteGenre}`,
+    )
       .then((res) => res.json())
       .then((data) => {
         setInput(data[0].content);
@@ -147,6 +153,26 @@ const QuoteCard = () => {
         >
           Select File
         </button>
+
+        <ToggleButtonGroup
+          value={quoteGenre}
+          exclusive
+          onChange={(event, newValue) => {
+            if (newValue == null) {
+              setQuoteGenre("");
+            } else {
+              setQuoteGenre(newValue);
+            }
+          }}
+        >
+          <ToggleButton value="motivational">Motivational</ToggleButton>
+          <ToggleButton value="inspirational">Inspirational</ToggleButton>
+          <ToggleButton value="wisdom">Wisdom</ToggleButton>
+          <ToggleButton value="famous-quotes">Famous Quotes</ToggleButton>
+          {/* <ToggleButton value="friendship">Friendship</ToggleButton> */}
+          <ToggleButton value="success">Success</ToggleButton>
+          {/* <ToggleButton value="life">Life</ToggleButton> */}
+        </ToggleButtonGroup>
 
         <button
           className="mb-5 rounded-md border-none bg-black p-2 text-base font-medium text-white"
