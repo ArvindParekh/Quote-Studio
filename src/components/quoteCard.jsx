@@ -172,6 +172,31 @@ const QuoteCard = () => {
           {/* <ToggleButton value="friendship">Friendship</ToggleButton> */}
           <ToggleButton value="success">Success</ToggleButton>
           {/* <ToggleButton value="life">Life</ToggleButton> */}
+
+          <FormControl>
+            <InputLabel id="demo-simple-select-label">Others</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              // defaultValue={font}
+              // value={quoteGenre}
+              label="Genre"
+              onChange={(event) => setQuoteGenre(event.target.value)}
+            >
+              <MenuItem value="friendship">Friendship</MenuItem>
+              <MenuItem value="life">Life</MenuItem>
+              <MenuItem value="spirituality">Spirituality</MenuItem>
+              <MenuItem value="technology">Technology</MenuItem>
+              <MenuItem value="truth">Truth</MenuItem>
+              {/* <MenuItem value="work">Work</MenuItem> */}
+              <MenuItem value="future">Future</MenuItem>
+              <MenuItem value="philosophy">Philosophy</MenuItem>
+              <MenuItem value="sports">Sports</MenuItem>
+              <MenuItem value="history">History</MenuItem>
+              <MenuItem value="humorous">Humorous</MenuItem>
+              <MenuItem value="business">Business</MenuItem>
+            </Select>
+          </FormControl>
         </ToggleButtonGroup>
 
         <button
