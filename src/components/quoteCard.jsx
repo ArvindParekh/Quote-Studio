@@ -16,6 +16,7 @@ const QuoteCard = () => {
   const [textColor, setTextColor] = useState("#000000");
   const [font, setFont] = useState("Arial");
   const [quoteSize, setQuoteSize] = useState("60");
+  const [opacity, setOpacity] = useState(1);
   const [quoteGenre, setQuoteGenre] = useState("");
   //   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
@@ -101,6 +102,17 @@ const QuoteCard = () => {
             defaultValue={60}
             valueLabelDisplay="auto"
             onChange={handleFontSizeChange}
+          />
+        </div>
+
+        <div>
+          <Slider
+            min={0}
+            max={1}
+            step={0.01}
+            defaultValue={1}
+            valueLabelDisplay="auto"
+            onChange={(event) => setOpacity(event.target.value)}
           />
         </div>
 
@@ -248,7 +260,11 @@ const QuoteCard = () => {
           >
             <h1
               className="text-6xl font-bold"
-              style={{ fontFamily: font, fontSize: `${quoteSize}px` }}
+              style={{
+                fontFamily: font,
+                fontSize: `${quoteSize}px`,
+                opacity: opacity,
+              }}
             >
               {input}
             </h1>
@@ -256,7 +272,7 @@ const QuoteCard = () => {
             {author !== "" && (
               <span
                 className="mt-5 text-2xl font-semibold"
-                style={{ fontFamily: font }}
+                style={{ fontFamily: font, opacity: opacity }}
               >
                 -{author}
               </span>
