@@ -217,77 +217,77 @@ const QuoteCard = () => {
             <TabPanel value="3" className="">
               <div className="flex gap-3">
                 <div
-                  className="rounded-m h-10 w-10 cursor-pointer rounded-md"
+                  className="rounded-m h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right, pink, purple)",
                   }}
                   onClick={handleGradientChange}
                 ></div>
                 <div
-                  className="h-10 w-10 cursor-pointer rounded-md"
+                  className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right, cyan, blue)",
                   }}
                   onClick={handleGradientChange}
                 ></div>
                 <div
-                  className="h-10 w-10 cursor-pointer rounded-md"
+                  className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right, orange, cyan)",
                   }}
                   onClick={handleGradientChange}
                 ></div>
                 <div
-                  className="h-10 w-10 cursor-pointer rounded-md"
+                  className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right,#ff6b81, #c0cbe8)",
                   }}
                   onClick={handleGradientChange}
                 ></div>
                 <div
-                  className="h-10 w-10 cursor-pointer rounded-md"
+                  className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right, #fff9b0, #b6d7a8)",
                   }}
                   onClick={handleGradientChange}
                 ></div>
                 <div
-                  className="h-10 w-10 cursor-pointer rounded-md"
+                  className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right, #87bdd8, #d6bdd8)",
                   }}
                   onClick={handleGradientChange}
                 ></div>
                 <div
-                  className="h-10 w-10 cursor-pointer rounded-md"
+                  className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right, #ff7979, #b3ffb3)",
                   }}
                   onClick={handleGradientChange}
                 ></div>
                 <div
-                  className="h-10 w-10 cursor-pointer rounded-md"
+                  className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right, #61a3ff, #d0d0d0)",
                   }}
                   onClick={handleGradientChange}
                 ></div>
                 <div
-                  className="h-10 w-10 cursor-pointer rounded-md"
+                  className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right, #b5ffb5, #61d1ff)",
                   }}
                   onClick={handleGradientChange}
                 ></div>
                 <div
-                  className="h-10 w-10 cursor-pointer rounded-md"
+                  className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right, #c3e8ff, #ffcccc)",
                   }}
                   onClick={handleGradientChange}
                 ></div>
                 <div
-                  className="h-10 w-10 cursor-pointer rounded-md"
+                  className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right, #ffb6c1, #ffee99)",
                   }}
