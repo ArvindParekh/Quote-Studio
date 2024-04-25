@@ -89,6 +89,12 @@ const QuoteCard = () => {
     setQuoteSize(event.target.value);
   }
 
+  function handleGradientChange(event) {
+    const gradient = event.target.style.backgroundImage;
+    console.log(gradient);
+    setBackground(gradient);
+  }
+
   return (
     <>
       <div className="m-4 flex h-full w-[50%] flex-col gap-5 pt-20">
@@ -208,7 +214,36 @@ const QuoteCard = () => {
                 Select File
               </button>
             </TabPanel>
-            <TabPanel value="3">Gradient Here</TabPanel>
+            <TabPanel value="3" className="">
+              <div className="flex gap-3">
+                <div
+                  className="rounded-m h-10 w-10 cursor-pointer rounded-md"
+                  style={{
+                    backgroundImage: "linear-gradient(to right, pink, purple)",
+                  }}
+                  onClick={handleGradientChange}
+                ></div>
+                <div
+                  className="h-10 w-10 cursor-pointer rounded-md"
+                  style={{
+                    backgroundImage: "linear-gradient(to right, cyan, blue)",
+                  }}
+                  onClick={handleGradientChange}
+                ></div>
+              </div>
+              <div>
+                <ColorPicker
+                  value={textColor}
+                  inputStyle={{
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "5px",
+                    margin: 4,
+                  }}
+                  onChange={(e) => setTextColor("#" + e.target.value)}
+                />
+              </div>
+            </TabPanel>
           </TabContext>
         </div>
 
@@ -264,6 +299,7 @@ const QuoteCard = () => {
           Get Random Quote
         </button>
       </div>
+
       <div className="m-4 flex h-full w-[50%] flex-col items-center justify-center">
         {background && (
           <div
@@ -272,10 +308,12 @@ const QuoteCard = () => {
             style={
               background[0] === "#"
                 ? { background: background, color: textColor }
-                : {
-                    background: "url(" + background + ")",
-                    color: textColor,
-                  }
+                : background[0] === "l"
+                  ? { background: background, color: textColor }
+                  : {
+                      background: "url(" + background + ")",
+                      color: textColor,
+                    }
             }
           >
             <h1
