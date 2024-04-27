@@ -29,9 +29,6 @@ const QuoteCard = () => {
   const inputRef = useRef(null);
 
   function getRandomQuote() {
-    console.log(
-      `https://api.quotable.io/quotes/random?maxLength=80&tags=${quoteConfig.genre}`,
-    );
     fetch(
       `https://api.quotable.io/quotes/random?maxLength=80&tags=${quoteConfig.genre}`,
     )
@@ -66,7 +63,7 @@ const QuoteCard = () => {
           link.click();
         });
     } catch (error) {
-      console.log(error);
+      console.log("Error downloading image: ", error);
     }
   }
 
@@ -82,7 +79,7 @@ const QuoteCard = () => {
           ]);
         });
     } catch (error) {
-      console.log(error);
+      console.log("Error copying image: ", error);
     }
   }
 
@@ -92,7 +89,6 @@ const QuoteCard = () => {
 
   function handleFontSizeChange(event) {
     setQuoteConfig((prev) => ({ ...prev, size: event.target.value }));
-    console.log(quoteConfig.size);
   }
 
   function handleGradientChange(event) {
