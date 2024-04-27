@@ -97,7 +97,7 @@ const QuoteCard = () => {
 
   return (
     <>
-      <div className="m-4 flex h-full w-[50%] flex-col gap-5 pt-20">
+      <div className="m-4 flex h-full w-[50%] flex-col gap-5 pt-7">
         <div className="flex flex-col gap-2">
           <label className="font-medium">Quote</label>
           <input
@@ -170,6 +170,7 @@ const QuoteCard = () => {
                 <Tab label="Color" value="1" />
                 <Tab label="Image" value="2" />
                 <Tab label="Gradient" value="3" />
+                <Tab label="Templates" value="4" />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -214,10 +215,10 @@ const QuoteCard = () => {
                 Select File
               </button>
             </TabPanel>
-            <TabPanel value="3" className="">
+            <TabPanel value="3">
               <div className="flex gap-3">
                 <div
-                  className="rounded-m h-10 w-10 cursor-pointer rounded-full"
+                  className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
                     backgroundImage: "linear-gradient(to right, pink, purple)",
                   }}
@@ -313,6 +314,16 @@ const QuoteCard = () => {
                   }}
                   onChange={(e) => setTextColor("#" + e.target.value)}
                 />
+              </div>
+            </TabPanel>
+            <TabPanel value="4">
+              <div className="flex gap-3">
+                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
+                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
+                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
+                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
+                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
+                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
               </div>
             </TabPanel>
           </TabContext>
