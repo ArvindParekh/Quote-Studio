@@ -13,7 +13,13 @@ const Root = () => {
         >
           Get Started
         </Link>
-      <footer className="absolute bottom-10 border py-3 px-10 rounded-3xl shadow-lg">Made by <Link to='https://twitter.com/ArvindParekh_21' target="_blank">@ArvindParekh</Link> ♥</footer>
+        <footer className="absolute bottom-10 rounded-3xl border px-10 py-3 shadow-lg">
+          Made by{" "}
+          <Link to="https://twitter.com/ArvindParekh_21" target="_blank">
+            @ArvindParekh
+          </Link>{" "}
+          ♥
+        </footer>
       </main>
     </>
   );
