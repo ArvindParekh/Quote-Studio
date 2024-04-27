@@ -5,7 +5,6 @@ import InputLabel from "@mui/material/InputLabel";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-// import TabPanel from "@mui/lab/TabPanel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -14,29 +13,35 @@ import domtoimage from "dom-to-image";
 import fontsData from "../data/fonts";
 
 const QuoteCard = () => {
-  const [input, setInput] = useState("The quote goes here.");
-  const [author, setAuthor] = useState("Someone Wise");
-  const [background, setBackground] = useState("#f0f000");
-  const [textColor, setTextColor] = useState("#000000");
-  const [font, setFont] = useState("Arial");
-  const [quoteSize, setQuoteSize] = useState("60");
-  const [opacity, setOpacity] = useState(1);
-  const [quoteGenre, setQuoteGenre] = useState("");
+  const [quote, setQuote] = useState({
+    input: "The quote goes here.",
+    author: "Someone wise",
+  });
+  const [quoteConfig, setQuoteConfig] = useState({
+    background: "#f0f000",
+    textColor: "#000000",
+    font: "Arial",
+    size: "60",
+    opacity: 1,
+    genre: "",
+  });
   const [value, setValue] = useState("1");
-  //   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
 
   function getRandomQuote() {
     console.log(
-      `https://api.quotable.io/quotes/random?maxLength=80&tags=${quoteGenre}`,
+      `https://api.quotable.io/quotes/random?maxLength=80&tags=${quoteConfig.genre}`,
     );
     fetch(
-      `https://api.quotable.io/quotes/random?maxLength=80&tags=${quoteGenre}`,
+      `https://api.quotable.io/quotes/random?maxLength=80&tags=${quoteConfig.genre}`,
     )
       .then((res) => res.json())
       .then((data) => {
-        setInput(data[0].content);
-        setAuthor(data[0].author);
+        setQuote((prev) => ({
+          ...prev,
+          input: data[0].content,
+          author: data[0].author,
+        }));
       });
   }
 
@@ -47,7 +52,7 @@ const QuoteCard = () => {
   function handleChange(e) {
     const files = e.target.files[0];
     const objecturl = URL.createObjectURL(files);
-    setBackground(objecturl);
+    setQuoteConfig((prev) => ({ ...prev, background: objecturl }));
   }
 
   function handleDownload() {
@@ -82,17 +87,17 @@ const QuoteCard = () => {
   }
 
   function handleFontChange(event) {
-    setFont(event.target.value);
+    setQuoteConfig((prev) => ({ ...prev, font: event.target.value }));
   }
 
   function handleFontSizeChange(event) {
-    setQuoteSize(event.target.value);
+    setQuoteConfig((prev) => ({ ...prev, size: event.target.value }));
+    console.log(quoteConfig.size);
   }
 
   function handleGradientChange(event) {
     const gradient = event.target.style.backgroundImage;
-    console.log(gradient);
-    setBackground(gradient);
+    setQuoteConfig((prev) => ({ ...prev, background: gradient }));
   }
 
   return (
@@ -103,8 +108,10 @@ const QuoteCard = () => {
           <input
             type="text"
             className="rounded-md border p-3 focus:border-2 focus:border-black focus:outline-none"
-            onChange={(e) => setInput(e.target.value)}
-            value={input}
+            onChange={(e) =>
+              setQuote((prev) => ({ ...prev, input: e.target.value }))
+            }
+            value={quote.input}
           />
         </div>
 
@@ -123,7 +130,12 @@ const QuoteCard = () => {
             step={0.01}
             defaultValue={1}
             valueLabelDisplay="auto"
-            onChange={(event) => setOpacity(event.target.value)}
+            onChange={(event) =>
+              setQuoteConfig((prev) => ({
+                ...prev,
+                opacity: event.target.value,
+              }))
+            }
           />
         </div>
 
@@ -132,8 +144,10 @@ const QuoteCard = () => {
           <input
             type="text"
             className="rounded-md border p-3 focus:border-2 focus:border-black focus:outline-none"
-            onChange={(e) => setAuthor(e.target.value)}
-            value={author}
+            onChange={(e) =>
+              setQuote((prev) => ({ ...prev, author: e.target.value }))
+            }
+            value={quote.author}
           />
         </div>
 
@@ -143,8 +157,8 @@ const QuoteCard = () => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              defaultValue={font}
-              value={font}
+              defaultValue={quoteConfig.font}
+              value={quoteConfig.font}
               label="Font"
               onChange={handleFontChange}
             >
@@ -177,7 +191,7 @@ const QuoteCard = () => {
               {/* Color picker */}
               <div>
                 <ColorPicker
-                  value={background}
+                  value={quoteConfig.background}
                   inputStyle={{
                     width: "30px",
                     height: "30px",
@@ -185,18 +199,28 @@ const QuoteCard = () => {
                     margin: 4,
                   }}
                   height={4}
-                  onChange={(e) => setBackground("#" + e.target.value)}
+                  onChange={(e) =>
+                    setQuoteConfig((prev) => ({
+                      ...prev,
+                      background: "#" + e.target.value,
+                    }))
+                  }
                 />
 
                 <ColorPicker
-                  value={textColor}
+                  value={quoteConfig.textColor}
                   inputStyle={{
                     width: "30px",
                     height: "30px",
                     borderRadius: "5px",
                     margin: 4,
                   }}
-                  onChange={(e) => setTextColor("#" + e.target.value)}
+                  onChange={(e) =>
+                    setQuoteConfig((prev) => ({
+                      ...prev,
+                      textColor: "#" + e.target.value,
+                    }))
+                  }
                 />
               </div>
             </TabPanel>
@@ -305,14 +329,19 @@ const QuoteCard = () => {
               </div>
               <div>
                 <ColorPicker
-                  value={textColor}
+                  value={quoteConfig.textColor}
                   inputStyle={{
                     width: "30px",
                     height: "30px",
                     borderRadius: "5px",
                     margin: 4,
                   }}
-                  onChange={(e) => setTextColor("#" + e.target.value)}
+                  onChange={(e) =>
+                    setQuoteConfig((prev) => ({
+                      ...prev,
+                      textColor: "#" + e.target.value,
+                    }))
+                  }
                 />
               </div>
             </TabPanel>
@@ -330,13 +359,13 @@ const QuoteCard = () => {
         </div>
 
         <ToggleButtonGroup
-          value={quoteGenre}
+          value={quoteConfig.genre}
           exclusive
           onChange={(event, newValue) => {
             if (newValue == null) {
-              setQuoteGenre("");
+              setQuoteConfig((prev) => ({ ...prev, genre: "" }));
             } else {
-              setQuoteGenre(newValue);
+              setQuoteConfig((prev) => ({ ...prev, genre: newValue }));
             }
           }}
         >
@@ -344,9 +373,7 @@ const QuoteCard = () => {
           <ToggleButton value="inspirational">Inspirational</ToggleButton>
           <ToggleButton value="wisdom">Wisdom</ToggleButton>
           <ToggleButton value="famous-quotes">Famous Quotes</ToggleButton>
-          {/* <ToggleButton value="friendship">Friendship</ToggleButton> */}
           <ToggleButton value="success">Success</ToggleButton>
-          {/* <ToggleButton value="life">Life</ToggleButton> */}
 
           <FormControl style={{ minWidth: "5vw" }}>
             <InputLabel id="demo-simple-select-label">Others</InputLabel>
@@ -356,14 +383,18 @@ const QuoteCard = () => {
               // defaultValue={font}
               // value={quoteGenre}
               label="Genre"
-              onChange={(event) => setQuoteGenre(event.target.value)}
+              onChange={(event) =>
+                setQuoteConfig((prev) => ({
+                  ...prev,
+                  genre: event.target.value,
+                }))
+              }
             >
               <MenuItem value="friendship">Friendship</MenuItem>
               <MenuItem value="life">Life</MenuItem>
               <MenuItem value="spirituality">Spirituality</MenuItem>
               <MenuItem value="technology">Technology</MenuItem>
               <MenuItem value="truth">Truth</MenuItem>
-              {/* <MenuItem value="work">Work</MenuItem> */}
               <MenuItem value="future">Future</MenuItem>
               <MenuItem value="philosophy">Philosophy</MenuItem>
               <MenuItem value="sports">Sports</MenuItem>
@@ -383,38 +414,47 @@ const QuoteCard = () => {
       </div>
 
       <div className="m-4 flex h-full w-[50%] flex-col items-center justify-center">
-        {background && (
+        {quoteConfig.background && (
           <div
             className="flex h-[80%] w-[95%] flex-col items-center justify-center rounded-xl px-4 text-center shadow-lg"
             id="canvas"
             style={
-              background[0] === "#"
-                ? { background: background, color: textColor }
-                : background[0] === "l"
-                  ? { background: background, color: textColor }
+              quoteConfig.background[0] === "#"
+                ? {
+                    background: quoteConfig.background,
+                    color: quoteConfig.textColor,
+                  }
+                : quoteConfig.background[0] === "l"
+                  ? {
+                      background: quoteConfig.background,
+                      color: quoteConfig.textColor,
+                    }
                   : {
-                      background: "url(" + background + ")",
-                      color: textColor,
+                      background: "url(" + quoteConfig.background + ")",
+                      color: quoteConfig.textColor,
                     }
             }
           >
             <h1
               className="text-6xl font-bold"
               style={{
-                fontFamily: font,
-                fontSize: `${quoteSize}px`,
-                opacity: opacity,
+                fontFamily: quoteConfig.font,
+                fontSize: `${quoteConfig.size}px`,
+                opacity: quoteConfig.opacity,
               }}
             >
-              {input}
+              {quote.input}
             </h1>
 
-            {author !== "" && (
+            {quote.author !== "" && (
               <span
                 className="mt-5 text-2xl font-semibold"
-                style={{ fontFamily: font, opacity: opacity }}
+                style={{
+                  fontFamily: quoteConfig.font,
+                  opacity: quoteConfig.opacity,
+                }}
               >
-                -{author}
+                -{quote.author}
               </span>
             )}
           </div>
