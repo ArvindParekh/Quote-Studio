@@ -11,6 +11,7 @@ import Select from "@mui/material/Select";
 import { ToggleButton, Slider, ToggleButtonGroup } from "@mui/material";
 import domtoimage from "dom-to-image";
 import fontsData from "../data/fonts";
+import templatesData from "../data/templates";
 
 const QuoteCard = () => {
   const [quote, setQuote] = useState({
@@ -67,20 +68,32 @@ const QuoteCard = () => {
     }
   }
 
+  // function handleCopy() {
+  //   try {
+  //     domtoimage
+  //       .toBlob(document.getElementById("canvas"), { quality: 0.95 })
+  //       .then((dataUrl) => {
+  //         navigator.clipboard.write([
+  //           new ClipboardItem({
+  //             "image/png": dataUrl,
+  //           }),
+  //         ]);
+  //       });
+  //   } catch (error) {
+  //     console.log("Error copying image: ", error);
+  //   }
+  // }
+
   function handleCopy() {
-    try {
-      domtoimage
-        .toBlob(document.getElementById("canvas"), { quality: 0.95 })
-        .then((dataUrl) => {
-          navigator.clipboard.write([
-            new ClipboardItem({
-              "image/png": dataUrl,
-            }),
-          ]);
-        });
-    } catch (error) {
-      console.log("Error copying image: ", error);
-    }
+    const jsonString = JSON.stringify({
+      background: quoteConfig.background,
+      textColor: quoteConfig.textColor,
+      font: quoteConfig.font,
+      size: quoteConfig.size,
+      opacity: quoteConfig.opacity,
+      genre: quoteConfig.genre,
+    });
+    navigator.clipboard.writeText(jsonString);
   }
 
   function handleFontChange(event) {
@@ -343,12 +356,15 @@ const QuoteCard = () => {
             </TabPanel>
             <TabPanel value="4">
               <div className="flex gap-3">
-                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
-                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
-                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
-                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
-                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
-                <div className="h-10 w-10 cursor-pointer rounded-md border"></div>
+                {templatesData.map((template, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="h-10 w-10 cursor-pointer rounded-md border"
+                      style={{backgroundImage: template.background}}
+                    ></div>
+                  );
+                })}
               </div>
             </TabPanel>
           </TabContext>
