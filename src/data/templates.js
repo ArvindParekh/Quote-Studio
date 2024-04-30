@@ -1,8 +1,9 @@
-import image from "/src/assets/image-1.jpeg";
+import image1 from "/src/assets/image-1.jpeg";
+import image2 from "/src/assets/image-2.jpeg";
 
 const templatesData = [
   {
-    background: image,
+    background: image1,
     textColor: "#ffffff",
     font: "Shadows Into Light",
     size: 76,
@@ -19,7 +20,7 @@ const templatesData = [
     genre: "famous-quotes",
   },
   {
-    background: "#691b69",
+    background: image2,
     textColor: "#ffffff",
     font: "Shadows Into Light",
     size: 76,

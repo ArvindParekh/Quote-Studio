@@ -360,8 +360,12 @@ const QuoteCard = () => {
                   return (
                     <div
                       key={index}
-                      className="h-10 w-10 cursor-pointer rounded-md border"
-                      style={{backgroundImage: template.background}}
+                      className="h-28 w-28 cursor-pointer rounded-md border"
+                      style={{
+                        backgroundImage: `url(${template.background})`,
+                        backgroundPosition: "center center",
+                        backgroundSize: "cover",
+                      }}
                     ></div>
                   );
                 })}
