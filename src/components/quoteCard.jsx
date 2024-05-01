@@ -92,6 +92,8 @@ const QuoteCard = () => {
       size: quoteConfig.size,
       opacity: quoteConfig.opacity,
       genre: quoteConfig.genre,
+      input: quote.input,
+      author: quote.author,
     });
     navigator.clipboard.writeText(jsonString);
   }
@@ -107,6 +109,23 @@ const QuoteCard = () => {
   function handleGradientChange(event) {
     const gradient = event.target.style.backgroundImage;
     setQuoteConfig((prev) => ({ ...prev, background: gradient }));
+  }
+
+  function handleTemplateClick(template) {
+    setQuote((prev) => ({
+      ...prev,
+      author: template.author,
+      input: template.input,
+    }));
+    setQuoteConfig((prev) => ({
+      ...prev,
+      background: template.background,
+      textColor: template.textColor,
+      font: template.font,
+      size: template.size,
+      opacity: template.opacity,
+      genre: template.genre,
+    }));
   }
 
   return (
@@ -362,10 +381,11 @@ const QuoteCard = () => {
                       key={index}
                       className="h-28 w-28 cursor-pointer rounded-md border"
                       style={{
-                        backgroundImage: `url(${template.background})`,
+                        backgroundImage: `url(${template.backgroundImage})`,
                         backgroundPosition: "center center",
                         backgroundSize: "cover",
                       }}
+                      onClick={() => handleTemplateClick(template)}
                     ></div>
                   );
                 })}
