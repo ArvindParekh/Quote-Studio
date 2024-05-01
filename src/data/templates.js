@@ -53,8 +53,7 @@ const templatesData = [
   },
   {
     backgroundImage: image5,
-    background:
-      "blob:http://localhost:5173/52b79ef6-509f-4a88-a0e6-c3f6e6e4c7ae",
+    background: `/mountains.jpg`,
     textColor: "#ffffff",
     font: "Permanent Marker",
     size: 58,
