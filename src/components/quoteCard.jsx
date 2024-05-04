@@ -560,14 +560,14 @@ const QuoteCard = () => {
         <div className="flex items-center justify-center gap-10">
           <button
             onClick={handleDownload}
-            className="border-1 mt-4 rounded-md border border-black bg-black p-3 px-7 text-white outline-none"
+            className="border-1 mt-4 rounded-md border border-black bg-[#7D2A52] p-3 px-7 text-white outline-none"
           >
             Download
           </button>
 
           <button
             onClick={handleCopy}
-            className="border-1 mt-4 rounded-md border border-black bg-black p-3 px-7 text-white outline-none"
+            className="border-1 mt-4 rounded-md border border-black bg-[#7D2A52] p-3 px-7 text-white outline-none"
           >
             Copy to Clipboard
           </button>
