@@ -8,10 +8,11 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { ToggleButton, Slider, ToggleButtonGroup } from "@mui/material";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import domtoimage from "dom-to-image";
 import fontsData from "../data/fonts";
 import templatesData from "../data/templates";
+import PrettoSlider from "./prettoSlider";
 
 const QuoteCard = () => {
   const [quote, setQuote] = useState({
@@ -19,7 +20,7 @@ const QuoteCard = () => {
     author: "Someone wise",
   });
   const [quoteConfig, setQuoteConfig] = useState({
-    background: "#f0f000",
+    background: "#FFFFF2",
     textColor: "#000000",
     font: "Arial",
     size: "60",
@@ -68,35 +69,35 @@ const QuoteCard = () => {
     }
   }
 
-  // function handleCopy() {
-  //   try {
-  //     domtoimage
-  //       .toBlob(document.getElementById("canvas"), { quality: 0.95 })
-  //       .then((dataUrl) => {
-  //         navigator.clipboard.write([
-  //           new ClipboardItem({
-  //             "image/png": dataUrl,
-  //           }),
-  //         ]);
-  //       });
-  //   } catch (error) {
-  //     console.log("Error copying image: ", error);
-  //   }
-  // }
-
   function handleCopy() {
-    const jsonString = JSON.stringify({
-      background: quoteConfig.background,
-      textColor: quoteConfig.textColor,
-      font: quoteConfig.font,
-      size: quoteConfig.size,
-      opacity: quoteConfig.opacity,
-      genre: quoteConfig.genre,
-      input: quote.input,
-      author: quote.author,
-    });
-    navigator.clipboard.writeText(jsonString);
+    try {
+      domtoimage
+        .toBlob(document.getElementById("canvas"), { quality: 0.95 })
+        .then((dataUrl) => {
+          navigator.clipboard.write([
+            new ClipboardItem({
+              "image/png": dataUrl,
+            }),
+          ]);
+        });
+    } catch (error) {
+      console.log("Error copying image: ", error);
+    }
   }
+
+  // function handleCopy() {
+  //   const jsonString = JSON.stringify({
+  //     background: quoteConfig.background,
+  //     textColor: quoteConfig.textColor,
+  //     font: quoteConfig.font,
+  //     size: quoteConfig.size,
+  //     opacity: quoteConfig.opacity,
+  //     genre: quoteConfig.genre,
+  //     input: quote.input,
+  //     author: quote.author,
+  //   });
+  //   navigator.clipboard.writeText(jsonString);
+  // }
 
   function handleFontChange(event) {
     setQuoteConfig((prev) => ({ ...prev, font: event.target.value }));
@@ -129,13 +130,13 @@ const QuoteCard = () => {
   }
 
   return (
-    <>
-      <div className="m-4 flex h-full w-[50%] flex-col gap-5 pt-7">
+    <section className="flex h-[80vh] w-full items-center justify-evenly">
+      <div className="m-4 flex h-full w-[30%] flex-col gap-5 rounded-3xl bg-[#7d2a52] p-7 text-white shadow-2xl shadow-[#7d2a52]">
         <div className="flex flex-col gap-2">
           <label className="font-medium">Quote</label>
           <input
             type="text"
-            className="rounded-md border p-3 focus:border-2 focus:border-black focus:outline-none"
+            className="rounded-md border p-3 text-black focus:border-2 focus:border-black focus:outline-none"
             onChange={(e) =>
               setQuote((prev) => ({ ...prev, input: e.target.value }))
             }
@@ -144,20 +145,26 @@ const QuoteCard = () => {
         </div>
 
         <div>
-          <Slider
+          <PrettoSlider
             defaultValue={60}
             valueLabelDisplay="auto"
+            style={{
+              color: "white",
+            }}
             onChange={handleFontSizeChange}
           />
         </div>
 
         <div>
-          <Slider
+          <PrettoSlider
             min={0}
             max={1}
             step={0.01}
             defaultValue={1}
             valueLabelDisplay="auto"
+            style={{
+              color: "white",
+            }}
             onChange={(event) =>
               setQuoteConfig((prev) => ({
                 ...prev,
@@ -171,7 +178,7 @@ const QuoteCard = () => {
           <label className="font-medium">Author</label>
           <input
             type="text"
-            className="rounded-md border p-3 focus:border-2 focus:border-black focus:outline-none"
+            className="rounded-md border p-3 text-black focus:border-2 focus:border-black focus:outline-none"
             onChange={(e) =>
               setQuote((prev) => ({ ...prev, author: e.target.value }))
             }
@@ -181,19 +188,42 @@ const QuoteCard = () => {
 
         <div>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Font</InputLabel>
+            <InputLabel
+              id="demo-simple-select-label"
+              style={{ color: "white", fontWeight: 500 }}
+            >
+              Font
+            </InputLabel>
             <Select
+              className="text-white"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               defaultValue={quoteConfig.font}
               value={quoteConfig.font}
               label="Font"
+              sx={{
+                color: "white",
+                ".MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(228, 219, 233, 0.25)",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(228, 219, 233, 0.25)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "rgba(228, 219, 233, 0.25)",
+                },
+                ".MuiSvgIcon-root ": {
+                  fill: "white !important",
+                },
+              }}
               onChange={handleFontChange}
             >
               {fontsData.map((fonts, index) => {
                 return (
                   <MenuItem
-                    style={{ fontFamily: fonts }}
+                    style={{
+                      fontFamily: fonts,
+                    }}
                     key={index}
                     value={fonts}
                   >
@@ -207,12 +237,36 @@ const QuoteCard = () => {
 
         <div>
           <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Box
+              sx={{
+                borderBottom: 1,
+                borderColor: "divider",
+              }}
+            >
               <TabList onChange={(event, newValue) => setValue(newValue)}>
-                <Tab label="Color" value="1" />
-                <Tab label="Image" value="2" />
-                <Tab label="Gradient" value="3" />
-                <Tab label="Templates" value="4" />
+                <Tab
+                  sx={{
+                    color: "white",
+                    "&.Mui-selected": { color: "black" },
+                  }}
+                  label="Color"
+                  value="1"
+                />
+                <Tab
+                  sx={{ color: "white", "&.Mui-selected": { color: "black" } }}
+                  label="Image"
+                  value="2"
+                />
+                <Tab
+                  sx={{ color: "white", "&.Mui-selected": { color: "black" } }}
+                  label="Gradient"
+                  value="3"
+                />
+                <Tab
+                  sx={{ color: "white", "&.Mui-selected": { color: "black" } }}
+                  label="Templates"
+                  value="4"
+                />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -397,6 +451,14 @@ const QuoteCard = () => {
         <ToggleButtonGroup
           value={quoteConfig.genre}
           exclusive
+          sx={{
+            color: "white", // This changes the text color to white
+            backgroundColor: "white", // This changes the background color to white
+            "&.MuiToggleButton-root": {
+              color: "white", // Ensures the text color of ToggleButtons is white
+              backgroundColor: "white", // Ensures the background color of ToggleButtons is white
+            },
+          }}
           onChange={(event, newValue) => {
             if (newValue == null) {
               setQuoteConfig((prev) => ({ ...prev, genre: "" }));
@@ -407,9 +469,9 @@ const QuoteCard = () => {
         >
           <ToggleButton value="motivational">Motivational</ToggleButton>
           <ToggleButton value="inspirational">Inspirational</ToggleButton>
-          <ToggleButton value="wisdom">Wisdom</ToggleButton>
+          {/* <ToggleButton value="wisdom">Wisdom</ToggleButton> */}
           <ToggleButton value="famous-quotes">Famous Quotes</ToggleButton>
-          <ToggleButton value="success">Success</ToggleButton>
+          {/* <ToggleButton value="success">Success</ToggleButton> */}
 
           <FormControl style={{ minWidth: "5vw" }}>
             <InputLabel id="demo-simple-select-label">Others</InputLabel>
@@ -511,7 +573,7 @@ const QuoteCard = () => {
           </button>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 
