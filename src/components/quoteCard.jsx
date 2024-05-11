@@ -131,7 +131,7 @@ const QuoteCard = () => {
 
   return (
     <section className="flex h-[80vh] w-full items-center justify-evenly">
-      <div className="m-4 flex h-full w-[30%] flex-col gap-5 rounded-3xl bg-[#7d2a52] p-7 text-white shadow-2xl shadow-[#7d2a52]">
+      <div className="flex h-full w-[30%] flex-col gap-5 overflow-scroll rounded-3xl bg-[#7d2a52] p-7 text-white shadow-2xl shadow-[#7d2a52]">
         <div className="flex flex-col gap-2">
           <label className="font-medium">Quote</label>
           <input
@@ -315,14 +315,14 @@ const QuoteCard = () => {
                 onChange={handleChange}
               />
               <button
-                className="mt-5 rounded-md border-none bg-black p-2 text-base font-medium text-white"
+                className="rounded-md border-none bg-black p-2 text-base font-medium text-white"
                 onClick={getFileFromDevice}
               >
                 Select File
               </button>
             </TabPanel>
             <TabPanel value="3">
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <div
                   className="h-10 w-10 cursor-pointer rounded-full"
                   style={{
@@ -428,12 +428,12 @@ const QuoteCard = () => {
               </div>
             </TabPanel>
             <TabPanel value="4">
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 {templatesData.map((template, index) => {
                   return (
                     <div
                       key={index}
-                      className="h-28 w-28 cursor-pointer rounded-md border"
+                      className="h-24 w-24 cursor-pointer rounded-md border"
                       style={{
                         backgroundImage: `url(${template.backgroundImage})`,
                         backgroundPosition: "center center",
@@ -504,7 +504,7 @@ const QuoteCard = () => {
         </ToggleButtonGroup>
 
         <button
-          className="mb-5 rounded-md border-none bg-black p-2 text-base font-medium text-white"
+          className="rounded-md border-none bg-black p-2 text-base font-medium text-white"
           onClick={getRandomQuote}
         >
           Get Random Quote
