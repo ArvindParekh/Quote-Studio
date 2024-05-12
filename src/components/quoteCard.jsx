@@ -131,7 +131,7 @@ const QuoteCard = () => {
 
   return (
     <section className="flex h-[80vh] w-full items-center justify-evenly">
-      <div className="flex h-full w-[30%] flex-col gap-5 overflow-scroll rounded-3xl bg-[#7d2a52] p-7 text-white shadow-2xl shadow-[#7d2a52]">
+      <div className="flex h-full w-[30%] flex-col gap-5 overflow-auto rounded-3xl bg-[#7d2a52] p-7 text-white shadow-2xl shadow-[#7d2a52]">
         <div className="flex flex-col gap-2">
           <label className="font-medium">Quote</label>
           <input
