@@ -20,6 +20,7 @@ Create and customize beautiful quote images with ease! Express yourself, share y
 
 - `React`
 - `Tailwind`
+- `dom-to-image`
 
 ## Process
 
