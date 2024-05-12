@@ -16,6 +16,25 @@ Create and customize beautiful quote images with ease! Express yourself, share y
 
 🔤 **Custom Fonts**: Express your style with a selection of fonts or upload your own.
 
+## 📦 Technologies
+
+- `React`
+- `Tailwind`
+
+## Process
+
+I started by making the most basic layout, a page divided into two parts - left for the sidebar and right for the actual quote-image. Once that was done, I focused on just building the basic functionalities in the sidebar - the input for quote and author and configuring them to reflect on the quote-image.
+
+I initially used `html2canvas` library to handling the conversion of the DOM element into an image. But that didn't work out very well and had issues with borders. So I had to switch to another library called `dom-to-image`.
+
+After the basics were set up and the mvp made with download and copy to clipboard functionality, I went on iterating over it to include all the additional features - size, opacity, random quotes, font styles, quote categories, gradients, and templates.
+
+After all this, the final step was updating the UI to make it a bit more attractive.
+
+## Learnings
+
+One of the main things I learned was to effectively utilize the `useState` hook. I intially had a huge number of them to store different states of the app. After a point, there were too many of them and I had to figure out to refactor them. I brought them down to just two, making use of objects and arrays to store different configs into a single useState.
+
 ## How to Use
 
 1. **Clone the Repository:**
@@ -32,35 +51,34 @@ Create and customize beautiful quote images with ease! Express yourself, share y
    pnpm run dev
    ```
 
-## Screenshots
-
-![Home Screen](/public/ss-1.png)
-
-![Quote Generator](/public/ss-2.png)
-
 ## TO-DOs
 
 1. **Themes and Templates:**
-        Create a collection of pre-designed themes/templates for users to choose from.
-        Allow users to select a theme, which will set predefined colors, fonts, and layouts for the quote.
+   Create a collection of pre-designed themes/templates for users to choose from.
+   Allow users to select a theme, which will set predefined colors, fonts, and layouts for the quote.
 
 2. **Image Filters:**
-        Integrate a library or tool that provides image filters and overlays (e.g., CSS filters or JavaScript image processing libraries).
-        Allow users to apply different filters to their background images and adjust the intensity.
+   Integrate a library or tool that provides image filters and overlays (e.g., CSS filters or JavaScript image processing libraries).
+   Allow users to apply different filters to their background images and adjust the intensity.
 
 3. **Image Cropping and Positioning:**
-        Implement an image cropping and positioning tool using libraries like react-image-crop or HTML5 Canvas.
-        Allow users to crop and adjust the position of their background images.
+   Implement an image cropping and positioning tool using libraries like react-image-crop or HTML5 Canvas.
+   Allow users to crop and adjust the position of their background images.
 
 4. **Custom Fonts:**
-        Integrate a font library or use @font-face in CSS to enable custom fonts.
-        Provide users with a selection of fonts to choose from or allow them to upload their own font files.
+   Integrate a font library or use @font-face in CSS to enable custom fonts.
+   Provide users with a selection of fonts to choose from or allow them to upload their own font files.
 
 5. **Quote Categories:**
-        Create a categorized database of quotes or integrate with a quote API that supports categories.
-        Allow users to filter quotes based on categories like Inspirational, Funny, etc.
+   Create a categorized database of quotes or integrate with a quote API that supports categories.
+   Allow users to filter quotes based on categories like Inspirational, Funny, etc.
+
+## Preview
+
+https://github.com/ArvindParekh/Quote-Studio/assets/71211731/33eb0d72-b2df-4e8a-93e9-bb026d500eb9
 
 ## Contributing
+
 All contributions are welcome! Feel free to open issues, suggest new features, or submit pull requests!
 
 Made with ❤️ by [Arvind Parekh](https://twitter.com/ArvindParekh_21)
