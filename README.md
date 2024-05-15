@@ -54,25 +54,16 @@ One of the main things I learned was to effectively utilize the `useState` hook.
 
 ## TO-DOs
 
-1. **Themes and Templates:**
-   Create a collection of pre-designed themes/templates for users to choose from.
-   Allow users to select a theme, which will set predefined colors, fonts, and layouts for the quote.
-
-2. **Image Filters:**
+1. **Image Filters:**
    Integrate a library or tool that provides image filters and overlays (e.g., CSS filters or JavaScript image processing libraries).
    Allow users to apply different filters to their background images and adjust the intensity.
 
-3. **Image Cropping and Positioning:**
+2. **Image Cropping and Positioning:**
    Implement an image cropping and positioning tool using libraries like react-image-crop or HTML5 Canvas.
    Allow users to crop and adjust the position of their background images.
 
-4. **Custom Fonts:**
-   Integrate a font library or use @font-face in CSS to enable custom fonts.
-   Provide users with a selection of fonts to choose from or allow them to upload their own font files.
-
-5. **Quote Categories:**
-   Create a categorized database of quotes or integrate with a quote API that supports categories.
-   Allow users to filter quotes based on categories like Inspirational, Funny, etc.
+3. **AI Background image generation:**
+   Use AI tools like DallE 3 or gpt-4o to generate custom background image based on user's prompts right within the app itself. Anything else we can do with AI?
 
 ## Preview
 
