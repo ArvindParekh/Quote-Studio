@@ -27,8 +27,8 @@ const QuoteCard = () => {
     opacity: 1,
     genre: "",
   });
-  const [value, setValue] = useState("1");
-  const inputRef = useRef(null);
+  const [tabNumber, setTabNumber] = useState("1");
+  const uploadImageRef = useRef(null);
 
   function getRandomQuote() {
     fetch(
@@ -45,10 +45,10 @@ const QuoteCard = () => {
   }
 
   function getFileFromDevice() {
-    inputRef.current.click();
+    uploadImageRef.current.click();
   }
 
-  function handleChange(e) {
+  function handleFileUpload(e) {
     const files = e.target.files[0];
     const objecturl = URL.createObjectURL(files);
     setQuoteConfig((prev) => ({ ...prev, background: objecturl }));
@@ -236,14 +236,14 @@ const QuoteCard = () => {
         </div>
 
         <div>
-          <TabContext value={value}>
+          <TabContext value={tabNumber}>
             <Box
               sx={{
                 borderBottom: 1,
                 borderColor: "divider",
               }}
             >
-              <TabList onChange={(event, newValue) => setValue(newValue)}>
+              <TabList onChange={(event, newValue) => setTabNumber(newValue)}>
                 <Tab
                   sx={{
                     color: "white",
@@ -311,8 +311,8 @@ const QuoteCard = () => {
                 type="file"
                 accept="image/*"
                 style={{ display: "none" }}
-                ref={inputRef}
-                onChange={handleChange}
+                ref={uploadImageRef}
+                onChange={handleFileUpload}
               />
               <button
                 className="rounded-md border-none bg-black p-2 text-base font-medium text-white"
