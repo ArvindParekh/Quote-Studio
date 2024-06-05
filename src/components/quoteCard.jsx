@@ -13,7 +13,9 @@ import domtoimage from "dom-to-image";
 import fontsData from "../data/fonts";
 import templatesData from "../data/templates";
 import PrettoSlider from "./prettoSlider";
+import Sidebar from "../app/sidebar";
 
+/* STATES */
 const QuoteCard = () => {
   const [quote, setQuote] = useState({
     input: "The quote goes here.",
@@ -30,6 +32,7 @@ const QuoteCard = () => {
   const [tabNumber, setTabNumber] = useState("1");
   const uploadImageRef = useRef(null);
 
+  /* FUNCTIONS */
   function getRandomQuote() {
     fetch(
       `https://api.quotable.io/quotes/random?maxLength=80&tags=${quoteConfig.genre}`,
@@ -129,10 +132,408 @@ const QuoteCard = () => {
     }));
   }
 
+  /* COMPONENTS */
+  const quoteInput = (
+    <div className="flex flex-col gap-2">
+      <label className="font-medium">Quote</label>
+      <input
+        type="text"
+        className="rounded-md border p-3 text-black focus:border-2 focus:border-black focus:outline-none"
+        onChange={(e) =>
+          setQuote((prev) => ({ ...prev, input: e.target.value }))
+        }
+        value={quote.input}
+      />
+    </div>
+  );
+
+  const fontSizeSlider = (
+    <div>
+      <PrettoSlider
+        defaultValue={60}
+        valueLabelDisplay="auto"
+        style={{
+          color: "white",
+        }}
+        onChange={handleFontSizeChange}
+      />
+    </div>
+  );
+
+  const opacitySlider = (
+    <div>
+      <PrettoSlider
+        min={0}
+        max={1}
+        step={0.01}
+        defaultValue={1}
+        valueLabelDisplay="auto"
+        style={{
+          color: "white",
+        }}
+        onChange={(event) =>
+          setQuoteConfig((prev) => ({
+            ...prev,
+            opacity: event.target.value,
+          }))
+        }
+      />
+    </div>
+  );
+
+  const authorInput = (
+    <div className="flex flex-col gap-2">
+      <label className="font-medium">Author</label>
+      <input
+        type="text"
+        className="rounded-md border p-3 text-black focus:border-2 focus:border-black focus:outline-none"
+        onChange={(e) =>
+          setQuote((prev) => ({ ...prev, author: e.target.value }))
+        }
+        value={quote.author}
+      />
+    </div>
+  );
+
+  const fontStyleDropdown = (
+    <div>
+      <FormControl fullWidth>
+        <InputLabel
+          id="demo-simple-select-label"
+          style={{ color: "white", fontWeight: 500 }}
+        >
+          Font
+        </InputLabel>
+        <Select
+          className="text-white"
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          defaultValue={quoteConfig.font}
+          value={quoteConfig.font}
+          label="Font"
+          sx={{
+            color: "white",
+            ".MuiOutlinedInput-notchedOutline": {
+              borderColor: "rgba(228, 219, 233, 0.25)",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "rgba(228, 219, 233, 0.25)",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "rgba(228, 219, 233, 0.25)",
+            },
+            ".MuiSvgIcon-root ": {
+              fill: "white !important",
+            },
+          }}
+          onChange={handleFontChange}
+        >
+          {fontsData.map((fonts, index) => {
+            return (
+              <MenuItem
+                style={{
+                  fontFamily: fonts,
+                }}
+                key={index}
+                value={fonts}
+              >
+                {fonts}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+    </div>
+  );
+
+  const tabSection = (
+    <div>
+      <TabContext value={tabNumber}>
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+          }}
+        >
+          <TabList onChange={(event, newValue) => setTabNumber(newValue)}>
+            <Tab
+              sx={{
+                color: "white",
+                "&.Mui-selected": { color: "black" },
+              }}
+              label="Color"
+              value="1"
+            />
+            <Tab
+              sx={{ color: "white", "&.Mui-selected": { color: "black" } }}
+              label="Image"
+              value="2"
+            />
+            <Tab
+              sx={{ color: "white", "&.Mui-selected": { color: "black" } }}
+              label="Gradient"
+              value="3"
+            />
+            <Tab
+              sx={{ color: "white", "&.Mui-selected": { color: "black" } }}
+              label="Templates"
+              value="4"
+            />
+          </TabList>
+        </Box>
+        <TabPanel value="1">
+          {/* Color picker */}
+          <div>
+            <ColorPicker
+              value={quoteConfig.background}
+              inputStyle={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "5px",
+                margin: 4,
+              }}
+              height={4}
+              onChange={(e) =>
+                setQuoteConfig((prev) => ({
+                  ...prev,
+                  background: "#" + e.target.value,
+                }))
+              }
+            />
+
+            <ColorPicker
+              value={quoteConfig.textColor}
+              inputStyle={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "5px",
+                margin: 4,
+              }}
+              onChange={(e) =>
+                setQuoteConfig((prev) => ({
+                  ...prev,
+                  textColor: "#" + e.target.value,
+                }))
+              }
+            />
+          </div>
+        </TabPanel>
+        <TabPanel value="2">
+          <input
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            ref={uploadImageRef}
+            onChange={handleFileUpload}
+          />
+          <button
+            className="rounded-md border-none bg-black p-2 text-base font-medium text-white"
+            onClick={getFileFromDevice}
+          >
+            Select File
+          </button>
+        </TabPanel>
+        <TabPanel value="3">
+          <div className="flex flex-wrap gap-3">
+            <div
+              className="h-10 w-10 cursor-pointer rounded-full"
+              style={{
+                backgroundImage: "linear-gradient(to right, pink, purple)",
+              }}
+              onClick={handleGradientChange}
+            ></div>
+            <div
+              className="h-10 w-10 cursor-pointer rounded-full"
+              style={{
+                backgroundImage: "linear-gradient(to right, cyan, blue)",
+              }}
+              onClick={handleGradientChange}
+            ></div>
+            <div
+              className="h-10 w-10 cursor-pointer rounded-full"
+              style={{
+                backgroundImage: "linear-gradient(to right, orange, cyan)",
+              }}
+              onClick={handleGradientChange}
+            ></div>
+            <div
+              className="h-10 w-10 cursor-pointer rounded-full"
+              style={{
+                backgroundImage: "linear-gradient(to right,#ff6b81, #c0cbe8)",
+              }}
+              onClick={handleGradientChange}
+            ></div>
+            <div
+              className="h-10 w-10 cursor-pointer rounded-full"
+              style={{
+                backgroundImage: "linear-gradient(to right, #fff9b0, #b6d7a8)",
+              }}
+              onClick={handleGradientChange}
+            ></div>
+            <div
+              className="h-10 w-10 cursor-pointer rounded-full"
+              style={{
+                backgroundImage: "linear-gradient(to right, #87bdd8, #d6bdd8)",
+              }}
+              onClick={handleGradientChange}
+            ></div>
+            <div
+              className="h-10 w-10 cursor-pointer rounded-full"
+              style={{
+                backgroundImage: "linear-gradient(to right, #ff7979, #b3ffb3)",
+              }}
+              onClick={handleGradientChange}
+            ></div>
+            <div
+              className="h-10 w-10 cursor-pointer rounded-full"
+              style={{
+                backgroundImage: "linear-gradient(to right, #61a3ff, #d0d0d0)",
+              }}
+              onClick={handleGradientChange}
+            ></div>
+            <div
+              className="h-10 w-10 cursor-pointer rounded-full"
+              style={{
+                backgroundImage: "linear-gradient(to right, #b5ffb5, #61d1ff)",
+              }}
+              onClick={handleGradientChange}
+            ></div>
+            <div
+              className="h-10 w-10 cursor-pointer rounded-full"
+              style={{
+                backgroundImage: "linear-gradient(to right, #c3e8ff, #ffcccc)",
+              }}
+              onClick={handleGradientChange}
+            ></div>
+            <div
+              className="h-10 w-10 cursor-pointer rounded-full"
+              style={{
+                backgroundImage: "linear-gradient(to right, #ffb6c1, #ffee99)",
+              }}
+              onClick={handleGradientChange}
+            ></div>
+          </div>
+          <div>
+            <ColorPicker
+              value={quoteConfig.textColor}
+              inputStyle={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "5px",
+                margin: 4,
+              }}
+              onChange={(e) =>
+                setQuoteConfig((prev) => ({
+                  ...prev,
+                  textColor: "#" + e.target.value,
+                }))
+              }
+            />
+          </div>
+        </TabPanel>
+        <TabPanel value="4">
+          <div className="flex flex-wrap gap-3">
+            {templatesData.map((template, index) => {
+              return (
+                <div
+                  key={index}
+                  className="h-24 w-24 cursor-pointer rounded-md border"
+                  style={{
+                    backgroundImage: `url(${template.backgroundImage})`,
+                    backgroundPosition: "center center",
+                    backgroundSize: "cover",
+                  }}
+                  onClick={() => handleTemplateClick(template)}
+                ></div>
+              );
+            })}
+          </div>
+        </TabPanel>
+      </TabContext>
+    </div>
+  );
+
+  const quoteCategories = (
+    <ToggleButtonGroup
+      value={quoteConfig.genre}
+      exclusive
+      sx={{
+        color: "white", // This changes the text color to white
+        backgroundColor: "white", // This changes the background color to white
+        "&.MuiToggleButton-root": {
+          color: "white", // Ensures the text color of ToggleButtons is white
+          backgroundColor: "white", // Ensures the background color of ToggleButtons is white
+        },
+      }}
+      onChange={(event, newValue) => {
+        if (newValue == null) {
+          setQuoteConfig((prev) => ({ ...prev, genre: "" }));
+        } else {
+          setQuoteConfig((prev) => ({ ...prev, genre: newValue }));
+        }
+      }}
+    >
+      <ToggleButton value="motivational">Motivational</ToggleButton>
+      <ToggleButton value="inspirational">Inspirational</ToggleButton>
+      {/* <ToggleButton value="wisdom">Wisdom</ToggleButton> */}
+      <ToggleButton value="famous-quotes">Famous Quotes</ToggleButton>
+      {/* <ToggleButton value="success">Success</ToggleButton> */}
+
+      <FormControl style={{ minWidth: "5vw" }}>
+        <InputLabel id="demo-simple-select-label">Others</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          // defaultValue={font}
+          // value={quoteGenre}
+          label="Genre"
+          onChange={(event) =>
+            setQuoteConfig((prev) => ({
+              ...prev,
+              genre: event.target.value,
+            }))
+          }
+        >
+          <MenuItem value="friendship">Friendship</MenuItem>
+          <MenuItem value="life">Life</MenuItem>
+          <MenuItem value="spirituality">Spirituality</MenuItem>
+          <MenuItem value="technology">Technology</MenuItem>
+          <MenuItem value="truth">Truth</MenuItem>
+          <MenuItem value="future">Future</MenuItem>
+          <MenuItem value="philosophy">Philosophy</MenuItem>
+          <MenuItem value="sports">Sports</MenuItem>
+          <MenuItem value="history">History</MenuItem>
+          <MenuItem value="humorous">Humorous</MenuItem>
+          <MenuItem value="business">Business</MenuItem>
+        </Select>
+      </FormControl>
+    </ToggleButtonGroup>
+  );
+
+  const randomQuoteButton = (
+    <button
+      className="rounded-md border-none bg-black p-2 text-base font-medium text-white"
+      onClick={getRandomQuote}
+    >
+      Get Random Quote
+    </button>
+  );
+
+  const sidebarComponents = [
+    quoteInput,
+    fontSizeSlider,
+    opacitySlider,
+    authorInput,
+    fontStyleDropdown,
+    tabSection,
+    quoteCategories,
+    randomQuoteButton,
+  ];
+
   return (
     <section className="flex h-[80vh] w-full items-center justify-evenly">
-      <div className="flex h-full w-[30%] flex-col gap-5 overflow-auto rounded-3xl bg-[#7d2a52] p-7 text-white shadow-2xl shadow-[#7d2a52]">
-        <div className="flex flex-col gap-2">
+      {/* <div className="flex h-full w-[30%] flex-col gap-5 overflow-auto rounded-3xl bg-[#7d2a52] p-7 text-white shadow-2xl shadow-[#7d2a52]"> */}
+        {/* <div className="flex flex-col gap-2">
           <label className="font-medium">Quote</label>
           <input
             type="text"
@@ -142,9 +543,9 @@ const QuoteCard = () => {
             }
             value={quote.input}
           />
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
           <PrettoSlider
             defaultValue={60}
             valueLabelDisplay="auto"
@@ -153,9 +554,9 @@ const QuoteCard = () => {
             }}
             onChange={handleFontSizeChange}
           />
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
           <PrettoSlider
             min={0}
             max={1}
@@ -172,9 +573,9 @@ const QuoteCard = () => {
               }))
             }
           />
-        </div>
+        </div> */}
 
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <label className="font-medium">Author</label>
           <input
             type="text"
@@ -184,9 +585,9 @@ const QuoteCard = () => {
             }
             value={quote.author}
           />
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
           <FormControl fullWidth>
             <InputLabel
               id="demo-simple-select-label"
@@ -233,283 +634,17 @@ const QuoteCard = () => {
               })}
             </Select>
           </FormControl>
-        </div>
+        </div> */}
 
-        <div>
-          <TabContext value={tabNumber}>
-            <Box
-              sx={{
-                borderBottom: 1,
-                borderColor: "divider",
-              }}
-            >
-              <TabList onChange={(event, newValue) => setTabNumber(newValue)}>
-                <Tab
-                  sx={{
-                    color: "white",
-                    "&.Mui-selected": { color: "black" },
-                  }}
-                  label="Color"
-                  value="1"
-                />
-                <Tab
-                  sx={{ color: "white", "&.Mui-selected": { color: "black" } }}
-                  label="Image"
-                  value="2"
-                />
-                <Tab
-                  sx={{ color: "white", "&.Mui-selected": { color: "black" } }}
-                  label="Gradient"
-                  value="3"
-                />
-                <Tab
-                  sx={{ color: "white", "&.Mui-selected": { color: "black" } }}
-                  label="Templates"
-                  value="4"
-                />
-              </TabList>
-            </Box>
-            <TabPanel value="1">
-              {/* Color picker */}
-              <div>
-                <ColorPicker
-                  value={quoteConfig.background}
-                  inputStyle={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "5px",
-                    margin: 4,
-                  }}
-                  height={4}
-                  onChange={(e) =>
-                    setQuoteConfig((prev) => ({
-                      ...prev,
-                      background: "#" + e.target.value,
-                    }))
-                  }
-                />
-
-                <ColorPicker
-                  value={quoteConfig.textColor}
-                  inputStyle={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "5px",
-                    margin: 4,
-                  }}
-                  onChange={(e) =>
-                    setQuoteConfig((prev) => ({
-                      ...prev,
-                      textColor: "#" + e.target.value,
-                    }))
-                  }
-                />
-              </div>
-            </TabPanel>
-            <TabPanel value="2">
-              <input
-                type="file"
-                accept="image/*"
-                style={{ display: "none" }}
-                ref={uploadImageRef}
-                onChange={handleFileUpload}
-              />
-              <button
-                className="rounded-md border-none bg-black p-2 text-base font-medium text-white"
-                onClick={getFileFromDevice}
-              >
-                Select File
-              </button>
-            </TabPanel>
-            <TabPanel value="3">
-              <div className="flex flex-wrap gap-3">
-                <div
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  style={{
-                    backgroundImage: "linear-gradient(to right, pink, purple)",
-                  }}
-                  onClick={handleGradientChange}
-                ></div>
-                <div
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  style={{
-                    backgroundImage: "linear-gradient(to right, cyan, blue)",
-                  }}
-                  onClick={handleGradientChange}
-                ></div>
-                <div
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  style={{
-                    backgroundImage: "linear-gradient(to right, orange, cyan)",
-                  }}
-                  onClick={handleGradientChange}
-                ></div>
-                <div
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right,#ff6b81, #c0cbe8)",
-                  }}
-                  onClick={handleGradientChange}
-                ></div>
-                <div
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #fff9b0, #b6d7a8)",
-                  }}
-                  onClick={handleGradientChange}
-                ></div>
-                <div
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #87bdd8, #d6bdd8)",
-                  }}
-                  onClick={handleGradientChange}
-                ></div>
-                <div
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #ff7979, #b3ffb3)",
-                  }}
-                  onClick={handleGradientChange}
-                ></div>
-                <div
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #61a3ff, #d0d0d0)",
-                  }}
-                  onClick={handleGradientChange}
-                ></div>
-                <div
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #b5ffb5, #61d1ff)",
-                  }}
-                  onClick={handleGradientChange}
-                ></div>
-                <div
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #c3e8ff, #ffcccc)",
-                  }}
-                  onClick={handleGradientChange}
-                ></div>
-                <div
-                  className="h-10 w-10 cursor-pointer rounded-full"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #ffb6c1, #ffee99)",
-                  }}
-                  onClick={handleGradientChange}
-                ></div>
-              </div>
-              <div>
-                <ColorPicker
-                  value={quoteConfig.textColor}
-                  inputStyle={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "5px",
-                    margin: 4,
-                  }}
-                  onChange={(e) =>
-                    setQuoteConfig((prev) => ({
-                      ...prev,
-                      textColor: "#" + e.target.value,
-                    }))
-                  }
-                />
-              </div>
-            </TabPanel>
-            <TabPanel value="4">
-              <div className="flex flex-wrap gap-3">
-                {templatesData.map((template, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="h-24 w-24 cursor-pointer rounded-md border"
-                      style={{
-                        backgroundImage: `url(${template.backgroundImage})`,
-                        backgroundPosition: "center center",
-                        backgroundSize: "cover",
-                      }}
-                      onClick={() => handleTemplateClick(template)}
-                    ></div>
-                  );
-                })}
-              </div>
-            </TabPanel>
-          </TabContext>
-        </div>
-
-        <ToggleButtonGroup
-          value={quoteConfig.genre}
-          exclusive
-          sx={{
-            color: "white", // This changes the text color to white
-            backgroundColor: "white", // This changes the background color to white
-            "&.MuiToggleButton-root": {
-              color: "white", // Ensures the text color of ToggleButtons is white
-              backgroundColor: "white", // Ensures the background color of ToggleButtons is white
-            },
-          }}
-          onChange={(event, newValue) => {
-            if (newValue == null) {
-              setQuoteConfig((prev) => ({ ...prev, genre: "" }));
-            } else {
-              setQuoteConfig((prev) => ({ ...prev, genre: newValue }));
-            }
-          }}
-        >
-          <ToggleButton value="motivational">Motivational</ToggleButton>
-          <ToggleButton value="inspirational">Inspirational</ToggleButton>
-          {/* <ToggleButton value="wisdom">Wisdom</ToggleButton> */}
-          <ToggleButton value="famous-quotes">Famous Quotes</ToggleButton>
-          {/* <ToggleButton value="success">Success</ToggleButton> */}
-
-          <FormControl style={{ minWidth: "5vw" }}>
-            <InputLabel id="demo-simple-select-label">Others</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              // defaultValue={font}
-              // value={quoteGenre}
-              label="Genre"
-              onChange={(event) =>
-                setQuoteConfig((prev) => ({
-                  ...prev,
-                  genre: event.target.value,
-                }))
-              }
-            >
-              <MenuItem value="friendship">Friendship</MenuItem>
-              <MenuItem value="life">Life</MenuItem>
-              <MenuItem value="spirituality">Spirituality</MenuItem>
-              <MenuItem value="technology">Technology</MenuItem>
-              <MenuItem value="truth">Truth</MenuItem>
-              <MenuItem value="future">Future</MenuItem>
-              <MenuItem value="philosophy">Philosophy</MenuItem>
-              <MenuItem value="sports">Sports</MenuItem>
-              <MenuItem value="history">History</MenuItem>
-              <MenuItem value="humorous">Humorous</MenuItem>
-              <MenuItem value="business">Business</MenuItem>
-            </Select>
-          </FormControl>
-        </ToggleButtonGroup>
-
-        <button
+        {/* <button
           className="rounded-md border-none bg-black p-2 text-base font-medium text-white"
           onClick={getRandomQuote}
         >
           Get Random Quote
-        </button>
-      </div>
+        </button> */}
+
+        <Sidebar groups={sidebarComponents} />
+      {/* </div> */}
 
       <div className="m-4 flex h-full w-[50%] flex-col items-center justify-center">
         {quoteConfig.background && (
