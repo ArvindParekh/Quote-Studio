@@ -1,4 +1,4 @@
-import QuoteCard from "./components/quoteCard";
+import CreateQuote from "./app/createQuote";
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
         {/* <h1 className='font-bold text-4xl w-[50%] text-center'>
                Generate a quote and share it on your socials!
             </h1> */}
-        <QuoteCard />
+        <CreateQuote />
       </main>
     </>
   );

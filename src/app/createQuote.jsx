@@ -12,11 +12,11 @@ import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import domtoimage from "dom-to-image";
 import fontsData from "../data/fonts";
 import templatesData from "../data/templates";
-import PrettoSlider from "./prettoSlider";
-import Sidebar from "../app/sidebar";
+import PrettoSlider from "../components/prettoSlider";
+import Sidebar from "../components/sidebar";
 
-/* STATES */
-const QuoteCard = () => {
+const CreateQuote = () => {
+  /* STATES */
   const [quote, setQuote] = useState({
     input: "The quote goes here.",
     author: "Someone wise",
@@ -532,119 +532,7 @@ const QuoteCard = () => {
 
   return (
     <section className="flex h-[80vh] w-full items-center justify-evenly">
-      {/* <div className="flex h-full w-[30%] flex-col gap-5 overflow-auto rounded-3xl bg-[#7d2a52] p-7 text-white shadow-2xl shadow-[#7d2a52]"> */}
-        {/* <div className="flex flex-col gap-2">
-          <label className="font-medium">Quote</label>
-          <input
-            type="text"
-            className="rounded-md border p-3 text-black focus:border-2 focus:border-black focus:outline-none"
-            onChange={(e) =>
-              setQuote((prev) => ({ ...prev, input: e.target.value }))
-            }
-            value={quote.input}
-          />
-        </div> */}
-
-        {/* <div>
-          <PrettoSlider
-            defaultValue={60}
-            valueLabelDisplay="auto"
-            style={{
-              color: "white",
-            }}
-            onChange={handleFontSizeChange}
-          />
-        </div> */}
-
-        {/* <div>
-          <PrettoSlider
-            min={0}
-            max={1}
-            step={0.01}
-            defaultValue={1}
-            valueLabelDisplay="auto"
-            style={{
-              color: "white",
-            }}
-            onChange={(event) =>
-              setQuoteConfig((prev) => ({
-                ...prev,
-                opacity: event.target.value,
-              }))
-            }
-          />
-        </div> */}
-
-        {/* <div className="flex flex-col gap-2">
-          <label className="font-medium">Author</label>
-          <input
-            type="text"
-            className="rounded-md border p-3 text-black focus:border-2 focus:border-black focus:outline-none"
-            onChange={(e) =>
-              setQuote((prev) => ({ ...prev, author: e.target.value }))
-            }
-            value={quote.author}
-          />
-        </div> */}
-
-        {/* <div>
-          <FormControl fullWidth>
-            <InputLabel
-              id="demo-simple-select-label"
-              style={{ color: "white", fontWeight: 500 }}
-            >
-              Font
-            </InputLabel>
-            <Select
-              className="text-white"
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              defaultValue={quoteConfig.font}
-              value={quoteConfig.font}
-              label="Font"
-              sx={{
-                color: "white",
-                ".MuiOutlinedInput-notchedOutline": {
-                  borderColor: "rgba(228, 219, 233, 0.25)",
-                },
-                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "rgba(228, 219, 233, 0.25)",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "rgba(228, 219, 233, 0.25)",
-                },
-                ".MuiSvgIcon-root ": {
-                  fill: "white !important",
-                },
-              }}
-              onChange={handleFontChange}
-            >
-              {fontsData.map((fonts, index) => {
-                return (
-                  <MenuItem
-                    style={{
-                      fontFamily: fonts,
-                    }}
-                    key={index}
-                    value={fonts}
-                  >
-                    {fonts}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </div> */}
-
-        {/* <button
-          className="rounded-md border-none bg-black p-2 text-base font-medium text-white"
-          onClick={getRandomQuote}
-        >
-          Get Random Quote
-        </button> */}
-
-        <Sidebar groups={sidebarComponents} />
-      {/* </div> */}
+      <Sidebar groups={sidebarComponents} />
 
       <div className="m-4 flex h-full w-[50%] flex-col items-center justify-center">
         {quoteConfig.background && (
@@ -712,4 +600,4 @@ const QuoteCard = () => {
   );
 };
 
-export default QuoteCard;
+export default CreateQuote;
