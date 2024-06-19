@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -17,6 +17,8 @@ import {
 import domtoimage from "dom-to-image"
 import fontsData from "@/data/fontStylesData"
 import "../fonts.css"
+import templatesData from "@/data/templateData"
+import GradientPicker from "@/components/colorPicker"
 
 export default function Component() {
     /* STATES */
@@ -33,6 +35,11 @@ export default function Component() {
         genre: "",
     });
     const [isToolbarOpen, setIsToolbarOpen] = useState(false)
+    const [tabNumber, setTabNumber] = useState("1");
+
+    useEffect(() => {
+        console.log(quoteConfig.background)
+    }, [quote])
 
     /* FUNCTIONS */
     function fetchRandomQuote() {
@@ -48,6 +55,24 @@ export default function Component() {
                 }));
             });
     }
+
+    function handleTemplateClick(template: {author: string, input: string, background: string, textColor: string, font: string, size: string, opacity: number, genre: string}) {
+        setQuote((prev) => ({
+            ...prev,
+            author: template.author,
+            input: template.input,
+        }));
+        setQuoteConfig((prev) => ({
+            ...prev,
+            background: template.background,
+            textColor: template.textColor,
+            font: template.font,
+            size: template.size,
+            opacity: template.opacity,
+            genre: template.genre,
+        }));
+    }
+
     const handleQuoteChange = (field: string, value: string | number | number[]) => {
         setQuote({
             ...quote,
@@ -169,45 +194,56 @@ export default function Component() {
                             </Select>
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="background-type">Background</Label>
+                            <Label htmlFor="background-type">Backgrounds</Label>
                             <Select
                                 id="background-type"
-                                value={quoteConfig.background}
-                                onValueChange={(value) => handleQuoteConfigChange("background", value)}
+                                // value={quoteConfig.background}
+                                onValueChange={(value) => setTabNumber(value)}
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Select background type" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="color">Color</SelectItem>
-                                    <SelectItem value="image">Image</SelectItem>
-                                    <SelectItem value="gradient">Gradient</SelectItem>
+                                    <SelectItem value="1">Canvas</SelectItem>
+                                    <SelectItem value="2">Text</SelectItem>
+                                    <SelectItem value="3">Templates</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
-                        {quote.backgroundType === "color" && (
+                        {tabNumber === "1" && (
                             <div className="space-y-2 col-span-2">
-                                <Label htmlFor="background-color">Background Color</Label>
-                                <div />
+                                <Label htmlFor="background-color">Canvas Background</Label>
+                                <div>
+                                    <GradientPicker type="background" background={quoteConfig.background} setBackground={handleQuoteConfigChange} />
+                                </div>
                             </div>
                         )}
-                        {quote.backgroundType === "image" && (
+                        {tabNumber === "2" && (
                             <div className="space-y-2 col-span-2">
-                                <Label htmlFor="background-image">Background Image</Label>
-                                <Input
-                                    id="background-image"
-                                    type="text"
-                                    value={quote.backgroundImage}
-                                    onChange={(e) => handleQuoteChange("backgroundImage", e.target.value)}
-                                />
+                                <Label htmlFor="background-image">Text Color</Label>
+                                <div>
+                                    <GradientPicker type="textColor" background={quoteConfig.textColor} setBackground={handleQuoteConfigChange} />
+                                </div>
                             </div>
                         )}
-                        {quote.backgroundType === "gradient" && (
+                        {tabNumber === "3" && (
                             <div className="space-y-2 col-span-2">
-                                <Label htmlFor="background-gradient">Background Gradient</Label>
-                                <div className="flex gap-4">
-                                    <div />
-                                    <div />
+                                <Label htmlFor="templates">Pre-Defined Templates</Label>
+                                <div className="flex gap-4 flex-wrap">
+                                    {templatesData.map((template, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="h-24 w-24 cursor-pointer rounded-md border"
+                                                style={{
+                                                    backgroundImage: `url(${template.backgroundImage})`,
+                                                    backgroundPosition: "center center",
+                                                    backgroundSize: "cover",
+                                                }}
+                                                onClick={() => handleTemplateClick(template)}
+                                            ></div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         )}
@@ -232,21 +268,23 @@ export default function Component() {
                                     color: quoteConfig.textColor,
                                 }
                                 : {
-                                    background: "url(" + quoteConfig.background + ")",
+                                    background: `${quoteConfig.background} no-repeat center center/cover`,
                                     color: quoteConfig.textColor,
                                 }
                     }
                 >
                     <div
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-[80%]"
-                        style={{ fontSize: `${quoteConfig.size}px`, opacity: quoteConfig.opacity }}
+                        className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-[80%] ${quoteConfig.textColor[0] === 'l' ? "!bg-clip-text text-transparent !bg-cover !bg-center transition-all" : ""}`}
+                        style={{ fontSize: `${quoteConfig.size}px`, opacity: quoteConfig.opacity, color: quoteConfig.textColor[0] === '#' ? quoteConfig.textColor : "", background: quoteConfig.textColor[0] === 'l' ? quoteConfig.textColor : "" }}
                     >
                         <h1
-                            className="text-6xl font-bold"
+                            className={quoteConfig.textColor[0] === 'l' ? "!bg-clip-text text-transparent !bg-cover !bg-center transition-all" : ""}
                             style={{
                                 fontFamily: quoteConfig.font,
                                 fontSize: `${quoteConfig.size}px`,
-                                // opacity: quoteConfig.opacity,
+                                opacity: quoteConfig.opacity,
+                                color: quoteConfig.textColor[0] === '#' ? quoteConfig.textColor : "",
+                                background: quoteConfig.textColor[0] === 'l' ? quoteConfig.textColor : ""
                             }}
                         >
                             {quote.input}
@@ -254,16 +292,18 @@ export default function Component() {
 
                         {quote.author !== "" && (
                             <span
-                                className="mt-5 text-2xl font-semibold"
+                                className={`mt-5 text-2xl font-semibold ${quoteConfig.textColor[0] === 'l' ? "!bg-clip-text text-transparent !bg-cover !bg-center transition-all" : ""}`}
                                 style={{
-                                    // fontFamily: quoteConfig.font,
-                                    // opacity: quoteConfig.opacity,
+                                    background: quoteConfig.textColor[0] === 'l' ? quoteConfig.textColor : "",
+                                    backgroundClip: quoteConfig.textColor[0] === 'l' ? 'text' : "",
+                                    color: quoteConfig.textColor[0] === '#' ? quoteConfig.textColor : "",
                                 }}
                             >
                                 -{quote.author}
                             </span>
                         )}
                     </div>
+
                 </div>
             </div>
 
