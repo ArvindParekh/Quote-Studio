@@ -94,7 +94,7 @@ function GradientPicker({
         }
     }
 
-    function handleFileUpload(e: { target: { files: File[] } }) {
+    function handleFileUpload(e) {
         const files = e.target.files[0];
         const objecturl = URL.createObjectURL(files);
         setBackground(type, objecturl);

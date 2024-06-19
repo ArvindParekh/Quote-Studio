@@ -80,7 +80,7 @@ export default function Component() {
         })
     }
 
-    const handleQuoteConfigChange = (field: string, value: string | number) => {
+    const handleQuoteConfigChange = (field: string, value: Number[] | string | number) => {
         setQuoteConfig({
             ...quoteConfig,
             [field]: value,
@@ -331,7 +331,7 @@ export default function Component() {
                                 </p>
                             </div>
                             <div>
-                                <ToggleGroup type="single" onClick={(e) => handleQuoteConfigChange("genre", e.target.ariaLabel)} className="grid grid-cols-2 gap-2">
+                                <ToggleGroup type="single" onClick={(e) => handleQuoteConfigChange("genre", (e.target as HTMLInputElement).ariaLabel)} className="grid grid-cols-2 gap-2">
                                     <ToggleGroupItem value="motivational" aria-label="motivational">
                                         Motivational
                                     </ToggleGroupItem>
