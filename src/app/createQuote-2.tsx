@@ -5,6 +5,15 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Slider } from "@/components/ui/slider"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import {
+    ToggleGroup,
+    ToggleGroupItem,
+} from "@/components/ui/toggle-group"
 import domtoimage from "dom-to-image"
 import fontsData from "@/data/fontStylesData"
 import "../fonts.css"
@@ -83,6 +92,7 @@ export default function Component() {
     }
     return (
         <div className="flex flex-col h-screen w-screen">
+            {/* Quote Customizer Card */}
             <div
                 className={`fixed bottom-4 right-4 z-20 transition-all duration-300 ${isToolbarOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"
                     }`}
@@ -204,6 +214,8 @@ export default function Component() {
                     </div>
                 </Card>
             </div>
+
+            {/* Canvas */}
             <div className="flex-1 flex items-center justify-center bg-muted">
                 <div
                     className="relative w-[800px] h-[600px] rounded-lg bg-cover bg-center"
@@ -226,19 +238,92 @@ export default function Component() {
                     }
                 >
                     <div
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center"
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-[80%]"
                         style={{ fontSize: `${quoteConfig.size}px`, opacity: quoteConfig.opacity }}
                     >
-                        <h1 className="text-4xl font-bold" style={{ fontSize: `${quoteConfig.size}px`, fontFamily: quoteConfig.font }}>{quote.input}</h1>
-                        <div className="text-2xl italic">- {quote.author}</div>
+                        <h1
+                            className="text-6xl font-bold"
+                            style={{
+                                fontFamily: quoteConfig.font,
+                                fontSize: `${quoteConfig.size}px`,
+                                // opacity: quoteConfig.opacity,
+                            }}
+                        >
+                            {quote.input}
+                        </h1>
+
+                        {quote.author !== "" && (
+                            <span
+                                className="mt-5 text-2xl font-semibold"
+                                style={{
+                                    // fontFamily: quoteConfig.font,
+                                    // opacity: quoteConfig.opacity,
+                                }}
+                            >
+                                -{quote.author}
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>
+
+            {/* Footer Buttons */}
             <div className="flex justify-center gap-4 p-4 bg-background">
-                <Button variant="outline" onClick={fetchRandomQuote}>
-                    <RefreshCwIcon className="h-5 w-5 mr-2" />
-                    Get Random Quote
-                </Button>
+
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button variant="outline"
+                        // onClick={fetchRandomQuoste}
+                        >
+                            <RefreshCwIcon className="h-5 w-5 mr-2" />
+                            Get Random Quote
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80">
+                        <div className="grid gap-4">
+                            <div className="space-y-2">
+                                <h4 className="font-medium leading-none">Categories</h4>
+                                <p className="text-sm text-muted-foreground">
+                                    Select a category for the quote.
+                                </p>
+                            </div>
+                            <div>
+                                <ToggleGroup type="single" onClick={(e) => handleQuoteConfigChange("genre", e.target.ariaLabel)} className="grid grid-cols-2 gap-2">
+                                    <ToggleGroupItem value="motivational" aria-label="motivational">
+                                        Motivational
+                                    </ToggleGroupItem>
+                                    <ToggleGroupItem value="inspirational" aria-label="inspirational">
+                                        Inspirational
+                                    </ToggleGroupItem>
+                                    <ToggleGroupItem value="humorous" aria-label="humorous">
+                                        Funny
+                                    </ToggleGroupItem>
+                                    <ToggleGroupItem value="famous-quotes" aria-label="famous-quotes">
+                                        Famous Quotes
+                                    </ToggleGroupItem>
+                                </ToggleGroup>
+                                <Select onValueChange={(e) => handleQuoteConfigChange("genre", e)}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Others" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="friendship">Friendship</SelectItem>
+                                        <SelectItem value="life">Life</SelectItem>
+                                        <SelectItem value="spirituality">Spirituality</SelectItem>
+                                        <SelectItem value="technology">Technology</SelectItem>
+                                        <SelectItem value="truth">Truth</SelectItem>
+                                        <SelectItem value="future">Future</SelectItem>
+                                        <SelectItem value="philosophy">Philosophy</SelectItem>
+                                        <SelectItem value="sports">Sports</SelectItem>
+                                        <SelectItem value="history">History</SelectItem>
+                                        <SelectItem value="business">Business</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <Button onClick={fetchRandomQuote} className="w-full mt-4 bg-black text-white">Get Random Quote</Button>
+                            </div>
+                        </div>
+                    </PopoverContent>
+                </Popover>
                 <Button variant="outline" onClick={downloadQuote}>
                     <DownloadIcon className="h-5 w-5 mr-2" />
                     Download
