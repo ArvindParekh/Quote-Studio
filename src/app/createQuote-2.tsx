@@ -1,10 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/A9YA19uHL8D
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-"use client"
-
 import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -13,6 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Slider } from "@/components/ui/slider"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import domtoimage from "dom-to-image"
+import fontsData from "@/data/fontStylesData"
+import "../fonts.css"
 
 export default function Component() {
     /* STATES */
@@ -44,16 +39,23 @@ export default function Component() {
                 }));
             });
     }
-    // const handleQuoteChange = (field: string, value: string | number | number[]) => {
-    //     setQuote({
-    //         ...quote,
-    //         [field]: value,
-    //     })
-    // }
+    const handleQuoteChange = (field: string, value: string | number | number[]) => {
+        setQuote({
+            ...quote,
+            [field]: value,
+        })
+    }
+
+    const handleQuoteConfigChange = (field: string, value: string | number) => {
+        setQuoteConfig({
+            ...quoteConfig,
+            [field]: value,
+        })
+    }
     function downloadQuote() {
         try {
             domtoimage
-                .toJpeg(document.getElementById("canvas"), { quality: 0.95 })
+                .toJpeg(document.getElementById("canvas")!, { quality: 0.95 })
                 .then(function (dataUrl: string) {
                     const link = document.createElement("a");
                     link.download = "quote.jpeg";
@@ -67,7 +69,7 @@ export default function Component() {
     function copyToClipboard() {
         try {
             domtoimage
-                .toBlob(document.getElementById("canvas"), { quality: 0.95 })
+                .toBlob(document.getElementById("canvas")!, { quality: 0.95 })
                 .then((dataUrl: Blob) => {
                     navigator.clipboard.write([
                         new ClipboardItem({
@@ -95,7 +97,7 @@ export default function Component() {
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="quote-text">Quote</Label>
-                            <Input id="quote-text" value={quote.text} onChange={(e) => handleQuoteChange("text", e.target.value)} />
+                            <Input id="quote-text" value={quote.input} onChange={(e) => handleQuoteChange("input", e.target.value)} />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="quote-author">Author</Label>
@@ -110,8 +112,8 @@ export default function Component() {
                             <Input
                                 id="font-size"
                                 type="number"
-                                value={quote.fontSize}
-                                onChange={(e) => handleQuoteChange("fontSize", parseInt(e.target.value))}
+                                value={quoteConfig.size}
+                                onChange={(e) => handleQuoteConfigChange("size", parseInt(e.target.value))}
                             />
                         </div>
                         <div className="space-y-2">
@@ -121,25 +123,38 @@ export default function Component() {
                                 min={0}
                                 max={1}
                                 step={0.1}
-                                value={[quote.opacity]}
-                                onValueChange={(value) => handleQuoteChange("opacity", value)}
+                                value={[quoteConfig.opacity]}
+                                onValueChange={(value) => handleQuoteConfigChange("opacity", value)}
                             />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="font-style">Font Style</Label>
                             <Select
                                 id="font-style"
-                                value={quote.fontStyle}
-                                onValueChange={(value) => handleQuoteChange("fontStyle", value)}
+                                value={quoteConfig.font}
+                                onValueChange={(value) => handleQuoteConfigChange("font", value)}
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Select font style" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="normal">Normal</SelectItem>
+                                    {/* <SelectItem value="normal">Normal</SelectItem>
                                     <SelectItem value="italic">Italic</SelectItem>
                                     <SelectItem value="bold">Bold</SelectItem>
-                                    <SelectItem value="bold italic">Bold Italic</SelectItem>
+                                    <SelectItem value="bold italic">Bold Italic</SelectItem> */}
+                                    {fontsData.map((fonts, index) => {
+                                        return (
+                                            <SelectItem
+                                                style={{
+                                                    fontFamily: fonts,
+                                                }}
+                                                key={index}
+                                                value={fonts}
+                                            >
+                                                {fonts}
+                                            </SelectItem>
+                                        );
+                                    })}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -147,8 +162,8 @@ export default function Component() {
                             <Label htmlFor="background-type">Background</Label>
                             <Select
                                 id="background-type"
-                                value={quote.backgroundType}
-                                onValueChange={(value) => handleQuoteChange("backgroundType", value)}
+                                value={quoteConfig.background}
+                                onValueChange={(value) => handleQuoteConfigChange("background", value)}
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Select background type" />
@@ -191,20 +206,30 @@ export default function Component() {
             </div>
             <div className="flex-1 flex items-center justify-center bg-muted">
                 <div
-                    className="relative w-[800px] h-[600px] bg-cover bg-center"
-                    style={{
-                        backgroundColor: quote.backgroundColor,
-                        backgroundImage:
-                            quote.backgroundType === "gradient"
-                                ? `linear-gradient(to bottom, ${quote.backgroundGradient?.[0]}, ${quote.backgroundGradient?.[1]})`
-                                : undefined,
-                    }}
+                    className="relative w-[800px] h-[600px] rounded-lg bg-cover bg-center"
+                    id="canvas"
+                    style={
+                        quoteConfig.background[0] === "#"
+                            ? {
+                                background: quoteConfig.background,
+                                color: quoteConfig.textColor,
+                            }
+                            : quoteConfig.background[0] === "l"
+                                ? {
+                                    background: quoteConfig.background,
+                                    color: quoteConfig.textColor,
+                                }
+                                : {
+                                    background: "url(" + quoteConfig.background + ")",
+                                    color: quoteConfig.textColor,
+                                }
+                    }
                 >
                     <div
                         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center"
-                        style={{ fontSize: `${quote.fontSize}px`, fontStyle: quote.fontStyle, opacity: quote.opacity }}
+                        style={{ fontSize: `${quoteConfig.size}px`, opacity: quoteConfig.opacity }}
                     >
-                        <div className="text-4xl font-bold">{quote.text}</div>
+                        <h1 className="text-4xl font-bold" style={{ fontSize: `${quoteConfig.size}px`, fontFamily: quoteConfig.font }}>{quote.input}</h1>
                         <div className="text-2xl italic">- {quote.author}</div>
                     </div>
                 </div>
@@ -231,7 +256,7 @@ export default function Component() {
 }
 
 // ICONS:
-function CopyIcon(props) {
+function CopyIcon(props: object) {
     return (
         <svg
             {...props}
@@ -252,7 +277,7 @@ function CopyIcon(props) {
 }
 
 
-function DownloadIcon(props) {
+function DownloadIcon(props: object) {
     return (
         <svg
             {...props}
@@ -274,7 +299,7 @@ function DownloadIcon(props) {
 }
 
 
-function RefreshCwIcon(props) {
+function RefreshCwIcon(props: object) {
     return (
         <svg
             {...props}
@@ -297,7 +322,7 @@ function RefreshCwIcon(props) {
 }
 
 
-function SettingsIcon(props) {
+function SettingsIcon(props: object) {
     return (
         <svg
             {...props}
@@ -318,7 +343,7 @@ function SettingsIcon(props) {
 }
 
 
-function VolumeXIcon(props) {
+function VolumeXIcon(props: object) {
     return (
         <svg
             {...props}
