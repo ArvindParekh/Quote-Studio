@@ -10,7 +10,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 // import { cn } from '@/utils'
 import { Paintbrush } from 'lucide-react'
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 
 // function PickerExample() {
 //     const [background, setBackground] = useState('#B4D455')
@@ -24,6 +24,8 @@ import { useMemo } from 'react'
 //         </div>
 //     )
 // }
+
+
 
 function GradientPicker({
     background,
@@ -83,6 +85,18 @@ function GradientPicker({
         "url('https://images.unsplash.com/photo-1688822863426-8c5f9b257090?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2532&q=90')",
         "url('https://images.unsplash.com/photo-1691225850735-6e4e51834cad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2532&q=90')",
     ]
+
+    const uploadImageRef = useRef(null);
+
+    function getFileFromDevice() {
+        uploadImageRef.current.click();
+    }
+
+    function handleFileUpload(e: { target: { files: Array } }) {
+        const files = e.target.files[0];
+        const objecturl = URL.createObjectURL(files);
+        setBackground(type, objecturl);
+    }
 
     const defaultTab = useMemo(() => {
         if (background.includes('url')) return 'image'
@@ -178,6 +192,19 @@ function GradientPicker({
                             ))}
                         </div>
 
+                        <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: "none" }}
+                            ref={uploadImageRef}
+                            onChange={handleFileUpload}
+                        />
+                        <button
+                            className="rounded-md border-none bg-black p-2 text-base font-medium text-white"
+                            onClick={getFileFromDevice}
+                        >
+                            Select File
+                        </button>
                         {/* <GradientButton background={background}>
                             🎁 Get abstract{' '}
                             <Link

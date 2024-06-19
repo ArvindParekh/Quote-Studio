@@ -27,8 +27,8 @@ export default function Component() {
         author: "Someone wise",
     });
     const [quoteConfig, setQuoteConfig] = useState({
-        background: "#FFFFF2",
-        textColor: "#000000",
+        background: "#09203f",
+        textColor: "#E2E2E2",
         font: "Arial",
         size: "60",
         opacity: 1,
@@ -56,7 +56,7 @@ export default function Component() {
             });
     }
 
-    function handleTemplateClick(template: {author: string, input: string, background: string, textColor: string, font: string, size: string, opacity: number, genre: string}) {
+    function handleTemplateClick(template: { author: string, input: string, background: string, textColor: string, font: string, size: string, opacity: number, genre: string }) {
         setQuote((prev) => ({
             ...prev,
             author: template.author,
@@ -267,7 +267,10 @@ export default function Component() {
                                     background: quoteConfig.background,
                                     color: quoteConfig.textColor,
                                 }
-                                : {
+                                : quoteConfig.background[0] === "b" ? {
+                                    background: "url(" + quoteConfig.background + ") no-repeat center center/cover",
+                                    color: quoteConfig.textColor,
+                                } : {
                                     background: `${quoteConfig.background} no-repeat center center/cover`,
                                     color: quoteConfig.textColor,
                                 }
