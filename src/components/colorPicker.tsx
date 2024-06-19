@@ -86,13 +86,15 @@ function GradientPicker({
         "url('https://images.unsplash.com/photo-1691225850735-6e4e51834cad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2532&q=90')",
     ]
 
-    const uploadImageRef = useRef(null);
+    const uploadImageRef = useRef<HTMLInputElement>(null);
 
     function getFileFromDevice() {
-        uploadImageRef.current.click();
+        if (uploadImageRef.current) {
+            uploadImageRef.current.click();
+        }
     }
 
-    function handleFileUpload(e: { target: { files: Array } }) {
+    function handleFileUpload(e: { target: { files: File[] } }) {
         const files = e.target.files[0];
         const objecturl = URL.createObjectURL(files);
         setBackground(type, objecturl);
