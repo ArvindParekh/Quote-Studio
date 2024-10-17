@@ -44,7 +44,7 @@ export default function Component() {
     /* FUNCTIONS */
     function fetchRandomQuote() {
         fetch(
-            `https://api.quotable.io/quotes/random?maxLength=80&tags=${quoteConfig.genre}`,
+            `http://api.quotable.io/quotes/random?maxLength=80&tags=${quoteConfig.genre}`,
         )
             .then((res) => res.json())
             .then((data) => {
